@@ -31,7 +31,7 @@ const FrontSide = () => {
 
           {/* QR Code - Top Right */}
           <div className="ml-6 flex-shrink-0">
-            <div className="bg-white p-3 rounded-xl shadow-lg border border-gray-200">
+            <div className="bg-white p-3 rounded-xl shadow-lg print:shadow-none border border-gray-200">
               <QRCodeSVG
                 value={qrUrl}
                 size={60}
@@ -45,8 +45,8 @@ const FrontSide = () => {
 
         {/* Three outcomes - editorial list style */}
         <div className="mb-6 space-y-3 max-w-[540px]">
-          <div className="flex gap-4 items-start bg-white/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-[#d4ff00] to-[#b8e000] rounded-xl flex items-center justify-center shadow-sm">
+          <div className="flex gap-4 items-start bg-white/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm print:shadow-none hover:shadow-md transition-shadow">
+            <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-[#d4ff00] to-[#b8e000] rounded-xl flex items-center justify-center shadow-sm print:shadow-none">
               <Eye className="w-5 h-5 text-[#0d3d2d]" />
             </div>
             <div>
@@ -56,8 +56,8 @@ const FrontSide = () => {
             </div>
           </div>
 
-          <div className="flex gap-4 items-start bg-white/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-[#d4ff00] to-[#b8e000] rounded-xl flex items-center justify-center shadow-sm">
+          <div className="flex gap-4 items-start bg-white/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm print:shadow-none hover:shadow-md transition-shadow">
+            <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-[#d4ff00] to-[#b8e000] rounded-xl flex items-center justify-center shadow-sm print:shadow-none">
               <Shield className="w-5 h-5 text-[#0d3d2d]" />
             </div>
             <div>
@@ -67,8 +67,8 @@ const FrontSide = () => {
             </div>
           </div>
 
-          <div className="flex gap-4 items-start bg-white/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-[#d4ff00] to-[#b8e000] rounded-xl flex items-center justify-center shadow-sm">
+          <div className="flex gap-4 items-start bg-white/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm print:shadow-none hover:shadow-md transition-shadow">
+            <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-[#d4ff00] to-[#b8e000] rounded-xl flex items-center justify-center shadow-sm print:shadow-none">
               <Zap className="w-5 h-5 text-[#0d3d2d]" />
             </div>
             <div>
@@ -82,7 +82,7 @@ const FrontSide = () => {
         {/* Data visualization - clean, confident cards */}
         <div className="flex-1 mb-6">
           <div className="grid grid-cols-4 gap-3 mb-4">
-            <div className="bg-white rounded-xl p-4 relative overflow-hidden shadow-md border border-gray-100">
+            <div className="bg-white rounded-xl p-4 relative overflow-hidden shadow-md print:shadow-none border border-gray-100">
               <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-[#d4ff00] to-[#b8e000] opacity-15 rounded-full -mr-8 -mt-8" />
               <div className="relative">
                 <div className="flex items-center gap-1.5 mb-2">
@@ -96,7 +96,7 @@ const FrontSide = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-4 relative overflow-hidden shadow-md border border-gray-100">
+            <div className="bg-white rounded-xl p-4 relative overflow-hidden shadow-md print:shadow-none border border-gray-100">
               <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-[#d4ff00] to-[#b8e000] opacity-15 rounded-full -mr-8 -mt-8" />
               <div className="relative">
                 <div className="flex items-center gap-1.5 mb-2">
@@ -110,7 +110,7 @@ const FrontSide = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-4 relative overflow-hidden shadow-md border border-gray-100">
+            <div className="bg-white rounded-xl p-4 relative overflow-hidden shadow-md print:shadow-none border border-gray-100">
               <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-[#d4ff00] to-[#b8e000] opacity-15 rounded-full -mr-8 -mt-8" />
               <div className="relative">
                 <div className="flex items-center gap-1.5 mb-2">
@@ -124,7 +124,7 @@ const FrontSide = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-4 relative overflow-hidden shadow-md border border-gray-100">
+            <div className="bg-white rounded-xl p-4 relative overflow-hidden shadow-md print:shadow-none border border-gray-100">
               <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-[#3498db] to-[#2980b9] opacity-15 rounded-full -mr-8 -mt-8" />
               <div className="relative">
                 <div className="flex items-center gap-1.5 mb-2">
@@ -140,7 +140,7 @@ const FrontSide = () => {
           </div>
 
           {/* Sample conversation list - streamlined */}
-          <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+          <div className="bg-white rounded-2xl overflow-hidden shadow-lg print:shadow-none border border-gray-100">
             <div className="px-4 py-2.5 bg-gradient-to-r from-[#fafaf8] to-white border-b border-gray-200 flex items-center justify-between">
               <span className="text-[11px] uppercase tracking-wider font-bold text-[#1a1a1a]">Live Conversations</span>
               <span className="text-[10px] text-[#666]">Last sync: 4m ago</span>
@@ -200,7 +200,7 @@ const FrontSide = () => {
         </div>
 
         {/* Differentiator - bold statement */}
-        <div className="bg-gradient-to-r from-[#0d3d2d] to-[#1a4a3a] text-white px-6 py-5 mb-6 rounded-2xl shadow-lg border border-[#0d3d2d]/20">
+        <div className="bg-gradient-to-r from-[#0d3d2d] to-[#1a4a3a] text-white px-6 py-5 mb-6 rounded-2xl shadow-lg print:shadow-none border border-[#0d3d2d]/20">
           <p className="text-[15px] font-semibold leading-tight text-center">
             Works on personal WhatsApp. No Business API.<br />
             No new number. No migration.

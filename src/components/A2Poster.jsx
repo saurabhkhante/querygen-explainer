@@ -10,7 +10,7 @@ function A2Poster() {
 
         {/* Number and context unified */}
         <div className="mb-8">
-          <div className="text-[240px] font-black text-white leading-none tracking-tighter drop-shadow-2xl mb-4">
+          <div className="text-[240px] font-black text-white leading-none tracking-tighter drop-shadow-2xl print:drop-shadow-none mb-4">
             2,000
           </div>
           <div className="text-8xl text-white leading-tight font-light tracking-wide">

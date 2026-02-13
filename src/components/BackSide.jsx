@@ -33,7 +33,7 @@ const BackSide = () => {
 
           {/* QR Code - Top Right */}
           <div className="ml-6 flex-shrink-0">
-            <div className="bg-white p-3 rounded-xl shadow-lg border border-gray-200">
+            <div className="bg-white p-3 rounded-xl shadow-lg print:shadow-none border border-gray-200">
               <QRCodeSVG
                 value={qrUrl}
                 size={60}
@@ -50,7 +50,7 @@ const BackSide = () => {
           <div className="flex items-start gap-3 mb-6">
             {/* Stage 1: WhatsApp */}
             <div className="flex-1">
-              <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 h-full">
+              <div className="bg-white rounded-2xl overflow-hidden shadow-lg print:shadow-none border border-gray-100 h-full">
                 <div className="bg-gradient-to-r from-[#25D366] to-[#20BA5A] px-4 py-3">
                   <div className="flex items-center gap-2">
                     <div className="p-1 bg-white/20 rounded-lg">
@@ -65,7 +65,7 @@ const BackSide = () => {
                     { text: '51.DYKE TO HALD', sub: 'DC 5182: 06', wt: 'WT: 42.27' },
                     { text: '52.DYKE TO HALD', sub: 'BG 7450, 03', wt: 'WT: 29.99' },
                   ].map((msg, idx) => (
-                    <div key={idx} className="bg-[#dcf8c6] rounded-xl p-2.5 text-[11px] shadow-sm">
+                    <div key={idx} className="bg-[#dcf8c6] rounded-xl p-2.5 text-[11px] shadow-sm print:shadow-none">
                       <div className="font-semibold text-[#1a1a1a]">{msg.text}</div>
                       <div className="text-[#555]">{msg.sub}</div>
                       <div className="font-medium text-[#0d3d2d]">{msg.wt}</div>
@@ -76,14 +76,14 @@ const BackSide = () => {
             </div>
 
             <div className="flex items-center justify-center pt-20">
-              <div className="p-2 bg-white rounded-full shadow-md">
+              <div className="p-2 bg-white rounded-full shadow-md print:shadow-none">
                 <ArrowRight className="w-5 h-5 text-[#0d3d2d]" strokeWidth={2.5} />
               </div>
             </div>
 
             {/* Stage 2: Google Sheets */}
             <div className="flex-1">
-              <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 h-full">
+              <div className="bg-white rounded-2xl overflow-hidden shadow-lg print:shadow-none border border-gray-100 h-full">
                 <div className="bg-gradient-to-r from-[#34A853] to-[#2D8E47] px-4 py-3">
                   <div className="flex items-center gap-2">
                     <div className="p-1 bg-white/20 rounded-lg">
@@ -121,7 +121,7 @@ const BackSide = () => {
             </div>
 
             <div className="flex items-center justify-center pt-20">
-              <div className="p-2 bg-white rounded-full shadow-md">
+              <div className="p-2 bg-white rounded-full shadow-md print:shadow-none">
                 <ArrowRight className="w-5 h-5 text-[#0d3d2d]" strokeWidth={2.5} />
               </div>
             </div>
@@ -129,7 +129,7 @@ const BackSide = () => {
             {/* Stage 3: Dashboard - Mobile UI */}
             <div className="flex-1">
               {/* Mobile Phone Frame */}
-              <div className="bg-gradient-to-b from-gray-700 to-gray-800 rounded-[32px] p-2.5 shadow-2xl h-full">
+              <div className="bg-gradient-to-b from-gray-700 to-gray-800 rounded-[32px] p-2.5 shadow-2xl print:shadow-none h-full">
                 {/* Phone Notch */}
                 <div className="flex justify-center mb-1.5">
                   <div className="bg-gray-900 w-20 h-3.5 rounded-full" />
@@ -191,7 +191,7 @@ const BackSide = () => {
 
         {/* Before/After/Result - editorial blocks */}
         <div className="mb-6 space-y-3">
-          <div className="flex gap-4 bg-white/40 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
+          <div className="flex gap-4 bg-white/40 backdrop-blur-sm p-4 rounded-2xl shadow-sm print:shadow-none">
             <div className="w-1 bg-gradient-to-b from-[#ff4500] to-[#ff6347] flex-shrink-0 rounded-full" />
             <div>
               <div className="text-[11px] uppercase tracking-wider font-bold text-[#1a1a1a] mb-2 bg-[#ff4500]/10 px-2 py-1 rounded-full inline-block">Before</div>
@@ -201,7 +201,7 @@ const BackSide = () => {
             </div>
           </div>
 
-          <div className="flex gap-4 bg-white/40 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
+          <div className="flex gap-4 bg-white/40 backdrop-blur-sm p-4 rounded-2xl shadow-sm print:shadow-none">
             <div className="w-1 bg-gradient-to-b from-[#3498db] to-[#2980b9] flex-shrink-0 rounded-full" />
             <div>
               <div className="text-[11px] uppercase tracking-wider font-bold text-[#1a1a1a] mb-2 bg-[#3498db]/10 px-2 py-1 rounded-full inline-block">After</div>
@@ -211,7 +211,7 @@ const BackSide = () => {
             </div>
           </div>
 
-          <div className="flex gap-4 bg-white/40 backdrop-blur-sm p-4 rounded-2xl shadow-sm">
+          <div className="flex gap-4 bg-white/40 backdrop-blur-sm p-4 rounded-2xl shadow-sm print:shadow-none">
             <div className="w-1 bg-gradient-to-b from-[#d4ff00] to-[#b8e000] flex-shrink-0 rounded-full" />
             <div>
               <div className="text-[11px] uppercase tracking-wider font-bold text-[#1a1a1a] mb-2 bg-[#d4ff00]/20 px-2 py-1 rounded-full inline-block">Result</div>
@@ -223,7 +223,7 @@ const BackSide = () => {
         </div>
 
         {/* Bottom callout */}
-        <div className="bg-gradient-to-r from-[#0d3d2d] to-[#1a4a3a] text-white px-6 py-4 mb-5 rounded-2xl shadow-lg border border-[#0d3d2d]/20">
+        <div className="bg-gradient-to-r from-[#0d3d2d] to-[#1a4a3a] text-white px-6 py-4 mb-5 rounded-2xl shadow-lg print:shadow-none border border-[#0d3d2d]/20">
           <p className="text-[14px] font-semibold leading-tight text-center">
             Zero workflow change. Your team keeps using WhatsApp. Querygen does the rest.
           </p>

@@ -10,7 +10,7 @@ function A3Poster() {
 
         {/* Number and context unified */}
         <div className="mb-6">
-          <div className="text-[160px] font-black text-white leading-none tracking-tighter drop-shadow-2xl mb-3">
+          <div className="text-[160px] font-black text-white leading-none tracking-tighter drop-shadow-2xl print:drop-shadow-none mb-3">
             2,000
           </div>
           <div className="text-6xl text-white leading-tight font-light tracking-wide">
