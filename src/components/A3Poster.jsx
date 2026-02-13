@@ -2,8 +2,8 @@ function A3Poster() {
   return (
     <div className="w-[297mm] h-[420mm] min-h-[420mm] bg-[#075E54] flex flex-col items-center p-16 print:p-0 relative overflow-hidden" style={{paddingTop: '130px'}}>
       {/* Subtle decorative elements for depth */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#128C7E] rounded-full blur-3xl opacity-20"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#25D366] rounded-full blur-3xl opacity-15"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#128C7E] rounded-full blur-3xl opacity-20 print:hidden"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#25D366] rounded-full blur-3xl opacity-15 print:hidden"></div>
 
       {/* Main content container - centered vertically and horizontally */}
       <div className="flex flex-col items-center justify-center text-center max-w-5xl relative z-10 print:px-16">
