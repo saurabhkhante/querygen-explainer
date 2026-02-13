@@ -21,10 +21,10 @@ const FrontSide = () => {
         {/* Header with QR code */}
         <div className="mb-6 flex items-start justify-between">
           <div className="flex-1">
-            <h1 className="text-[46px] leading-[1.05] font-bold tracking-tight text-[#1a1a1a] mb-1">
+            <h1 className="text-[42px] leading-[1.05] font-bold tracking-tight text-[#1a1a1a] mb-1">
               You built a business<br />on WhatsApp.
             </h1>
-            <h2 className="text-[46px] leading-[1.05] font-bold tracking-tight text-[#0d3d2d]">
+            <h2 className="text-[42px] leading-[1.05] font-bold tracking-tight text-[#0d3d2d]">
               You have zero visibility into it.
             </h2>
           </div>
