@@ -175,7 +175,7 @@ const FrontSide = () => {
 
           {/* Team Performance Summary */}
           <div className="grid grid-cols-2 gap-3 mt-4">
-            <div className="bg-white rounded-xl p-3 shadow-md border border-gray-100">
+            <div className="bg-white rounded-xl p-3 shadow-md print:shadow-none border border-gray-100">
               <div className="text-[9px] uppercase tracking-wider text-[#666] mb-2 font-semibold">Top Performer</div>
               <div className="flex items-center justify-between">
                 <div>
@@ -186,7 +186,7 @@ const FrontSide = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-3 shadow-md border border-gray-100">
+            <div className="bg-white rounded-xl p-3 shadow-md print:shadow-none border border-gray-100">
               <div className="text-[9px] uppercase tracking-wider text-[#666] mb-2 font-semibold">Response Time (Avg)</div>
               <div className="flex items-center justify-between">
                 <div>
