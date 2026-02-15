@@ -223,7 +223,7 @@ const BackSide = () => {
         </div>
 
         {/* Bottom callout */}
-        <div className="bg-gradient-to-r from-[#0d3d2d] to-[#1a4a3a] text-white px-6 py-4 mb-5 rounded-2xl shadow-lg print:shadow-none border border-[#0d3d2d]/20">
+        <div className="bg-gradient-to-r from-[#0d3d2d] to-[#1a4a3a] text-white px-6 py-4 mb-8 rounded-2xl shadow-lg print:shadow-none border border-[#0d3d2d]/20">
           <p className="text-[14px] font-semibold leading-tight text-center">
             Zero workflow change. Your team keeps using WhatsApp. Querygen does the rest.
           </p>
