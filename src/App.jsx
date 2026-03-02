@@ -13,6 +13,7 @@ import BusinessCardSlideV2 from './components/BusinessCardSlideV2';
 import CampaignsSlide from './components/CampaignsSlide';
 import StoriesBCSlide from './components/StoriesBCSlide';
 import FeedBCSlide from './components/FeedBCSlide';
+import LaajExplainer from './components/LaajExplainer';
 
 function App() {
   return (
@@ -105,6 +106,17 @@ function App() {
                     </Link>
                   </div>
                   <div className="mt-8 pt-6 border-t-2 border-gray-300">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">Prospect Explainers</h2>
+                    <div className="flex gap-4 justify-center mb-6">
+                      <Link
+                        to="/laaj-explainer"
+                        className="px-6 py-3 bg-[#6B1A2B] text-white rounded-lg hover:bg-[#4A0F1E] transition-colors font-medium text-lg"
+                      >
+                        Laaj Creations Explainer
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="mt-4 pt-6 border-t-2 border-gray-300">
                     <h2 className="text-2xl font-bold text-gray-900 mb-4">Ads (Social Media)</h2>
                     <div className="flex gap-4 justify-center">
                       <Link
@@ -139,6 +151,7 @@ function App() {
           <Route path="/campaigns-slide" element={<CampaignsSlide />} />
           <Route path="/stories-bc-slide" element={<StoriesBCSlide />} />
           <Route path="/feed-bc-slide" element={<FeedBCSlide />} />
+          <Route path="/laaj-explainer" element={<LaajExplainer />} />
         </Routes>
       </div>
     </Router>
