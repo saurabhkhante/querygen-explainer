@@ -819,11 +819,7 @@ function StaleProspectMock() {
               }}>{value}</span>
             </div>
           ))}
-          <div style={{ marginTop: '14px', padding: '10px 12px', background: `${ROSE}10`, borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '11px', color: MUTED }}>Querygen monthly cost</span>
-            <span style={{ fontSize: '13px', fontWeight: 700, color: PLUM }}>₹10,000</span>
-          </div>
-          <div style={{ textAlign: 'center', marginTop: '12px', fontFamily: "'Cormorant Garamond', serif", fontSize: '28px', fontWeight: 700, color: ROSE }}>
+          <div style={{ textAlign: 'center', marginTop: '16px', fontFamily: "'Cormorant Garamond', serif", fontSize: '28px', fontWeight: 700, color: ROSE }}>
             4×
           </div>
           <div style={{ textAlign: 'center', fontSize: '10px', color: MUTED }}>return on investment</div>
