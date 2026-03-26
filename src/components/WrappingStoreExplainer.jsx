@@ -819,10 +819,6 @@ function StaleProspectMock() {
               }}>{value}</span>
             </div>
           ))}
-          <div style={{ textAlign: 'center', marginTop: '16px', fontFamily: "'Cormorant Garamond', serif", fontSize: '28px', fontWeight: 700, color: ROSE }}>
-            4×
-          </div>
-          <div style={{ textAlign: 'center', fontSize: '10px', color: MUTED }}>return on investment</div>
         </div>
 
         <p style={{ fontSize: '12px', color: MUTED, lineHeight: 1.6, marginTop: '16px' }}>
