@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useResponsive } from '../hooks/useResponsive';
 
 const GOLD = '#C9922A';
 const MAROON = '#6B1A2B';
@@ -421,6 +422,7 @@ function CheckoutMock() {
    MOCK: Orders dashboard
 ══════════════════════════════════════ */
 function OrdersDashMock() {
+  const { isMobile } = useResponsive();
   const orders = [
     { id: 'LC-1234', saree: 'Magenta Banarasi', customer: 'Sunita S.', city: 'Nagpur', courier: 'BlueDart', status: 'Label Ready', paid: '₹2,400' },
     { id: 'LC-1235', saree: 'Teal Kanjivaram', customer: 'Rekha P.', city: 'Pune', courier: 'Delhivery', status: 'Label Ready', paid: '₹3,100' },
@@ -457,52 +459,49 @@ function OrdersDashMock() {
         </button>
       </div>
       {/* Table */}
-      <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px' }}>
-          <thead>
-            <tr style={{ background: '#f8f8f8', borderBottom: '1px solid #eee' }}>
-              {['Order', 'Saree', 'Customer', 'City', 'Courier', 'Status', 'Amount'].map(h => (
-                <th key={h} style={{
-                  padding: '8px 10px', textAlign: 'left',
-                  fontWeight: 700, color: MUTED, whiteSpace: 'nowrap',
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px' }}>
+        <thead>
+          <tr style={{ background: '#f8f8f8', borderBottom: '1px solid #eee' }}>
+            <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: MUTED, whiteSpace: 'nowrap' }}>Order</th>
+            <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: MUTED, whiteSpace: 'nowrap' }}>Saree</th>
+            <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: MUTED, whiteSpace: 'nowrap', display: isMobile ? 'none' : 'table-cell' }}>Customer</th>
+            <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: MUTED, whiteSpace: 'nowrap', display: isMobile ? 'none' : 'table-cell' }}>City</th>
+            <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: MUTED, whiteSpace: 'nowrap' }}>Courier</th>
+            <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: MUTED, whiteSpace: 'nowrap' }}>Status</th>
+            <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: MUTED, whiteSpace: 'nowrap', display: isMobile ? 'none' : 'table-cell' }}>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((o, i) => (
+            <tr key={o.id} style={{
+              borderBottom: '1px solid #f0f0f0',
+              background: i % 2 === 0 ? '#fff' : '#fdfcfb',
+            }}>
+              <td style={{ padding: '8px 10px', fontWeight: 700, color: MAROON }}>{o.id}</td>
+              <td style={{ padding: '8px 10px', color: INK }}>{o.saree}</td>
+              <td style={{ padding: '8px 10px', color: INK, display: isMobile ? 'none' : 'table-cell' }}>{o.customer}</td>
+              <td style={{ padding: '8px 10px', color: MUTED, display: isMobile ? 'none' : 'table-cell' }}>{o.city}</td>
+              <td style={{ padding: '8px 10px' }}>
+                <span style={{
+                  background: '#EEF2FF', color: '#4338CA',
+                  borderRadius: '4px', padding: '2px 6px', fontSize: '10px', fontWeight: 600,
                 }}>
-                  {h}
-                </th>
-              ))}
+                  {o.courier}
+                </span>
+              </td>
+              <td style={{ padding: '8px 10px' }}>
+                <span style={{
+                  background: '#F0FDF4', color: '#15803D',
+                  borderRadius: '4px', padding: '2px 6px', fontSize: '10px', fontWeight: 600,
+                }}>
+                  {o.status}
+                </span>
+              </td>
+              <td style={{ padding: '8px 10px', fontWeight: 700, color: INK, display: isMobile ? 'none' : 'table-cell' }}>{o.paid}</td>
             </tr>
-          </thead>
-          <tbody>
-            {orders.map((o, i) => (
-              <tr key={o.id} style={{
-                borderBottom: '1px solid #f0f0f0',
-                background: i % 2 === 0 ? '#fff' : '#fdfcfb',
-              }}>
-                <td style={{ padding: '8px 10px', fontWeight: 700, color: MAROON }}>{o.id}</td>
-                <td style={{ padding: '8px 10px', color: INK }}>{o.saree}</td>
-                <td style={{ padding: '8px 10px', color: INK }}>{o.customer}</td>
-                <td style={{ padding: '8px 10px', color: MUTED }}>{o.city}</td>
-                <td style={{ padding: '8px 10px' }}>
-                  <span style={{
-                    background: '#EEF2FF', color: '#4338CA',
-                    borderRadius: '4px', padding: '2px 6px', fontSize: '10px', fontWeight: 600,
-                  }}>
-                    {o.courier}
-                  </span>
-                </td>
-                <td style={{ padding: '8px 10px' }}>
-                  <span style={{
-                    background: '#F0FDF4', color: '#15803D',
-                    borderRadius: '4px', padding: '2px 6px', fontSize: '10px', fontWeight: 600,
-                  }}>
-                    {o.status}
-                  </span>
-                </td>
-                <td style={{ padding: '8px 10px', fontWeight: 700, color: INK }}>{o.paid}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
       <div style={{
         padding: '8px 16px', background: `${GOLD}0a`,
         borderTop: '1px solid #eee', fontSize: '10px', color: MUTED, textAlign: 'right',
@@ -580,10 +579,11 @@ function ShippingLabelMock() {
 function ChatToggle() {
   const [view, setView] = useState('laaj'); // 'laaj' | 'customer'
   const isLaaj = view === 'laaj';
+  const { isMobile } = useResponsive();
 
   return (
     <Reveal delay={80}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: '24px', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'minmax(0,1fr) minmax(0,1fr)', gap: isMobile ? '16px' : '24px', alignItems: 'start' }}>
         {/* Phone with toggle */}
         <div>
           {/* Toggle pill */}
@@ -689,6 +689,7 @@ function PaymentAutoSection() {
   const sectionRef = useRef(null);
   const { step, start } = useLoopingSteps();
   const started = useRef(false);
+  const { isMobile } = useResponsive();
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -720,7 +721,7 @@ function PaymentAutoSection() {
       background: '#111827',
       borderTop: `1px solid rgba(255,255,255,0.06)`,
       borderBottom: `1px solid rgba(255,255,255,0.06)`,
-      padding: '80px 32px',
+      padding: isMobile ? '48px 16px' : '80px 32px',
       position: 'relative', overflow: 'hidden',
     }}>
       {/* Background dot grid */}
@@ -753,7 +754,7 @@ function PaymentAutoSection() {
           </div>
           <h2 style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: '32px', fontWeight: 700, color: '#fff',
+            fontSize: isMobile ? '24px' : '32px', fontWeight: 700, color: '#fff',
             lineHeight: 1.2, margin: '0 0 10px',
           }}>
             Customer pays. Five things happen — <em style={{ color: GOLD, fontStyle: 'italic' }}>automatically.</em>
@@ -766,8 +767,8 @@ function PaymentAutoSection() {
         {/* ── Main 3-col grid ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '280px 1fr 260px',
-          gap: '28px',
+          gridTemplateColumns: isMobile ? '1fr' : '280px 1fr 260px',
+          gap: isMobile ? '20px' : '28px',
           alignItems: 'start',
         }}>
 
@@ -856,9 +857,13 @@ function PaymentAutoSection() {
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px' }}>
                 <thead>
                   <tr style={{ background: '#f8f8f8', borderBottom: '2px solid #eee' }}>
-                    {['Order #', 'Saree', 'Customer', 'City', 'Courier', 'Status', 'Amount'].map(h => (
-                      <th key={h} style={{ padding: '7px 10px', textAlign: 'left', color: MUTED, fontWeight: 600, fontSize: '10px', whiteSpace: 'nowrap' }}>{h}</th>
-                    ))}
+                    <th style={{ padding: '7px 10px', textAlign: 'left', color: MUTED, fontWeight: 600, fontSize: '10px', whiteSpace: 'nowrap' }}>Order #</th>
+                    <th style={{ padding: '7px 10px', textAlign: 'left', color: MUTED, fontWeight: 600, fontSize: '10px', whiteSpace: 'nowrap' }}>Saree</th>
+                    <th style={{ padding: '7px 10px', textAlign: 'left', color: MUTED, fontWeight: 600, fontSize: '10px', whiteSpace: 'nowrap', display: isMobile ? 'none' : 'table-cell' }}>Customer</th>
+                    <th style={{ padding: '7px 10px', textAlign: 'left', color: MUTED, fontWeight: 600, fontSize: '10px', whiteSpace: 'nowrap', display: isMobile ? 'none' : 'table-cell' }}>City</th>
+                    <th style={{ padding: '7px 10px', textAlign: 'left', color: MUTED, fontWeight: 600, fontSize: '10px', whiteSpace: 'nowrap' }}>Courier</th>
+                    <th style={{ padding: '7px 10px', textAlign: 'left', color: MUTED, fontWeight: 600, fontSize: '10px', whiteSpace: 'nowrap' }}>Status</th>
+                    <th style={{ padding: '7px 10px', textAlign: 'left', color: MUTED, fontWeight: 600, fontSize: '10px', whiteSpace: 'nowrap', display: isMobile ? 'none' : 'table-cell' }}>Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -870,15 +875,15 @@ function PaymentAutoSection() {
                     <tr key={o.id} style={{ borderBottom: '1px solid #f0f0f0', background: i % 2 ? '#fafafa' : '#fff' }}>
                       <td style={{ padding: '8px 10px', fontWeight: 700, color: MAROON, fontSize: '11px' }}>{o.id}</td>
                       <td style={{ padding: '8px 10px', color: INK, fontSize: '11px' }}>{o.saree}</td>
-                      <td style={{ padding: '8px 10px', color: INK, fontSize: '11px' }}>{o.c}</td>
-                      <td style={{ padding: '8px 10px', color: MUTED, fontSize: '11px' }}>{o.city}</td>
+                      <td style={{ padding: '8px 10px', color: INK, fontSize: '11px', display: isMobile ? 'none' : 'table-cell' }}>{o.c}</td>
+                      <td style={{ padding: '8px 10px', color: MUTED, fontSize: '11px', display: isMobile ? 'none' : 'table-cell' }}>{o.city}</td>
                       <td style={{ padding: '8px 10px' }}>
                         <span style={{ background: '#EEF2FF', color: '#4338CA', borderRadius: '4px', padding: '2px 6px', fontSize: '10px', fontWeight: 600 }}>{o.courier}</span>
                       </td>
                       <td style={{ padding: '8px 10px' }}>
                         <span style={{ background: '#F0FDF4', color: '#15803D', borderRadius: '4px', padding: '2px 6px', fontSize: '10px', fontWeight: 600 }}>✓ Ready</span>
                       </td>
-                      <td style={{ padding: '8px 10px', fontWeight: 700, fontSize: '11px', color: INK }}>{o.amt}</td>
+                      <td style={{ padding: '8px 10px', fontWeight: 700, fontSize: '11px', color: INK, display: isMobile ? 'none' : 'table-cell' }}>{o.amt}</td>
                     </tr>
                   ))}
                   {/* New order row */}
@@ -902,8 +907,8 @@ function PaymentAutoSection() {
                       </span>
                     </td>
                     <td style={{ padding: '8px 10px', color: INK, fontSize: '11px' }}>Magenta Banarasi</td>
-                    <td style={{ padding: '8px 10px', color: INK, fontSize: '11px' }}>Sunita S.</td>
-                    <td style={{ padding: '8px 10px', color: MUTED, fontSize: '11px' }}>Nagpur</td>
+                    <td style={{ padding: '8px 10px', color: INK, fontSize: '11px', display: isMobile ? 'none' : 'table-cell' }}>Sunita S.</td>
+                    <td style={{ padding: '8px 10px', color: MUTED, fontSize: '11px', display: isMobile ? 'none' : 'table-cell' }}>Nagpur</td>
                     <td style={{ padding: '8px 10px' }}>
                       <span style={{ background: '#EEF2FF', color: '#4338CA', borderRadius: '4px', padding: '2px 6px', fontSize: '10px', fontWeight: 600 }}>BlueDart</span>
                     </td>
@@ -917,11 +922,36 @@ function PaymentAutoSection() {
                         {step >= 4 ? '🖨 Printing...' : step >= 1 ? '⚡ Just confirmed' : '✓ Ready'}
                       </span>
                     </td>
-                    <td style={{ padding: '8px 10px', fontWeight: 700, fontSize: '11px', color: INK }}>₹2,400</td>
+                    <td style={{ padding: '8px 10px', fontWeight: 700, fontSize: '11px', color: INK, display: isMobile ? 'none' : 'table-cell' }}>₹2,400</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+
+            {/* ── Printer status chip (mobile only) ── */}
+            {isMobile && (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '10px',
+                background: 'rgba(255,255,255,0.04)',
+                border: `1px solid ${printing ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.08)'}`,
+                borderRadius: '12px', padding: '12px 16px',
+                transition: 'border-color 0.6s',
+              }}>
+                <span style={{ fontSize: '18px', lineHeight: 1 }}>🖨️</span>
+                <div>
+                  <div style={{
+                    fontSize: '12px', fontWeight: 700,
+                    color: printing ? '#fff' : 'rgba(255,255,255,0.35)',
+                    marginBottom: '2px', transition: 'color 0.6s',
+                  }}>
+                    {printing ? 'Printing label...' : 'Waiting for payment'}
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>
+                    Label with barcode, address, SKU — prints automatically.
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* ── Printer ── */}
             <div style={{
@@ -930,8 +960,8 @@ function PaymentAutoSection() {
               border: '1px solid rgba(255,255,255,0.08)',
               borderRadius: '14px', padding: '20px',
             }}>
-              {/* Printer SVG-style mock */}
-              <div style={{ flexShrink: 0 }}>
+              {/* Printer SVG-style mock — hidden on mobile */}
+              <div style={{ flexShrink: 0, display: isMobile ? 'none' : 'block' }}>
                 {/* Printer body */}
                 <div style={{
                   width: '140px',
@@ -1081,6 +1111,7 @@ function PaymentAutoSection() {
    MAIN COMPONENT
 ══════════════════════════════════════ */
 const LaajExplainer = () => {
+  const { isMobile } = useResponsive();
   return (
     <div style={{
       fontFamily: "'DM Sans', sans-serif",
@@ -1095,7 +1126,7 @@ const LaajExplainer = () => {
       <section style={{
         background: `linear-gradient(160deg, ${MAROON} 0%, #2E0B14 100%)`,
         position: 'relative', overflow: 'hidden',
-        padding: '72px 24px 56px',
+        padding: isMobile ? '48px 16px 40px' : '72px 24px 56px',
       }}>
         <div style={{
           position: 'absolute', inset: 0, opacity: 0.055,
@@ -1121,7 +1152,7 @@ const LaajExplainer = () => {
 
           <h1 style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: '38px', fontWeight: 700, color: '#fff',
+            fontSize: isMobile ? '28px' : '38px', fontWeight: 700, color: '#fff',
             lineHeight: 1.2, margin: '0 0 16px',
           }}>
             Laaj Creations —<br />
@@ -1141,7 +1172,7 @@ const LaajExplainer = () => {
       </section>
 
       {/* ════════════ STEP 1: Catalog ════════════ */}
-      <section style={{ padding: '64px 24px', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: isMobile ? '40px 16px' : '64px 24px', maxWidth: '900px', margin: '0 auto' }}>
         <Reveal>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px' }}>
             <div style={{
@@ -1178,9 +1209,11 @@ const LaajExplainer = () => {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px' }}>
               <thead>
                 <tr style={{ background: '#f8f9fa', borderBottom: '1px solid #e8eaed' }}>
-                  {['SKU', 'Name', 'Price', 'Stock', 'Status'].map(h => (
-                    <th key={h} style={{ padding: '7px 12px', textAlign: 'left', color: '#5f6368', fontWeight: 600 }}>{h}</th>
-                  ))}
+                  <th style={{ padding: '7px 12px', textAlign: 'left', color: '#5f6368', fontWeight: 600, display: isMobile ? 'none' : 'table-cell' }}>SKU</th>
+                  <th style={{ padding: '7px 12px', textAlign: 'left', color: '#5f6368', fontWeight: 600 }}>Name</th>
+                  <th style={{ padding: '7px 12px', textAlign: 'left', color: '#5f6368', fontWeight: 600 }}>Price</th>
+                  <th style={{ padding: '7px 12px', textAlign: 'left', color: '#5f6368', fontWeight: 600 }}>Stock</th>
+                  <th style={{ padding: '7px 12px', textAlign: 'left', color: '#5f6368', fontWeight: 600 }}>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -1191,7 +1224,7 @@ const LaajExplainer = () => {
                   { sku: 'LC-0455', name: 'Red Paithani', price: '₹2,800', stock: 2, sold: false },
                 ].map((r, i) => (
                   <tr key={r.sku} style={{ borderBottom: '1px solid #f0f0f0', background: i % 2 ? '#fafafa' : '#fff' }}>
-                    <td style={{ padding: '7px 12px', color: '#1a73e8', fontWeight: 600 }}>{r.sku}</td>
+                    <td style={{ padding: '7px 12px', color: '#1a73e8', fontWeight: 600, display: isMobile ? 'none' : 'table-cell' }}>{r.sku}</td>
                     <td style={{ padding: '7px 12px', color: INK }}>{r.name}</td>
                     <td style={{ padding: '7px 12px', fontWeight: 600, color: INK }}>{r.price}</td>
                     <td style={{ padding: '7px 12px', color: r.stock === 0 ? '#c0392b' : '#166534', fontWeight: 600 }}>{r.stock}</td>
@@ -1216,7 +1249,7 @@ const LaajExplainer = () => {
       {/* ════════════ STEP 2 + 3: Customer messages + Quick reply ════════════ */}
       <section style={{
         background: '#fff', borderTop: `1px solid ${GOLD}22`, borderBottom: `1px solid ${GOLD}22`,
-        padding: '64px 24px',
+        padding: isMobile ? '40px 16px' : '64px 24px',
       }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <Reveal>
@@ -1243,7 +1276,7 @@ const LaajExplainer = () => {
       </section>
 
       {/* ════════════ STEP 3: Checkout ════════════ */}
-      <section style={{ padding: '64px 24px', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: isMobile ? '40px 16px' : '64px 24px', maxWidth: '900px', margin: '0 auto' }}>
         <Reveal>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px' }}>
             <div style={{
@@ -1263,8 +1296,8 @@ const LaajExplainer = () => {
             They tap Pay, Razorpay opens, they pay via UPI, card, or netbanking.
           </p>
         </Reveal>
-        <Reveal delay={100} style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <div style={{ flex: '0 0 auto' }}>
+        <Reveal delay={100} style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap', flexDirection: isMobile ? 'column' : 'row' }}>
+          <div style={{ flex: '0 0 auto', width: isMobile ? '100%' : 'auto' }}>
             <CheckoutMock />
           </div>
           <div style={{ flex: '1 1 200px', minWidth: '200px' }}>
@@ -1293,7 +1326,7 @@ const LaajExplainer = () => {
       <PaymentAutoSection />
 
       {/* ════════════ STEP 5: Packing dashboard ════════════ */}
-      <section style={{ padding: '64px 24px', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: isMobile ? '40px 16px' : '64px 24px', maxWidth: '900px', margin: '0 auto' }}>
         <Reveal>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px' }}>
             <div style={{
@@ -1316,7 +1349,7 @@ const LaajExplainer = () => {
           <OrdersDashMock />
         </Reveal>
         <Reveal delay={180} style={{ marginTop: '32px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '16px', alignItems: 'start' }}>
             <div>
               <div style={{ fontSize: '11px', fontWeight: 700, color: MUTED, marginBottom: '10px' }}>
                 Each order gets a proper label:
@@ -1347,7 +1380,7 @@ const LaajExplainer = () => {
       {/* ════════════ STEP 6: Tracking ════════════ */}
       <section style={{
         background: '#fff', borderTop: `1px solid ${GOLD}22`, borderBottom: `1px solid ${GOLD}22`,
-        padding: '64px 24px',
+        padding: isMobile ? '40px 16px' : '64px 24px',
       }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <Reveal>
@@ -1383,7 +1416,7 @@ const LaajExplainer = () => {
       </section>
 
       {/* ════════════ BEFORE / AFTER SUMMARY ════════════ */}
-      <section style={{ padding: '64px 24px', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: isMobile ? '40px 16px' : '64px 24px', maxWidth: '900px', margin: '0 auto' }}>
         <Reveal>
           <SectionHead label="THE TRANSFORMATION" title="Before vs. after, in one view" />
         </Reveal>
@@ -1398,21 +1431,21 @@ const LaajExplainer = () => {
         ].map(({ before, after }, i) => (
           <Reveal key={i} delay={i * 50}>
             <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 36px 1fr',
-              gap: '10px', alignItems: 'center', marginBottom: '10px',
+              display: 'grid', gridTemplateColumns: isMobile ? '1fr 20px 1fr' : '1fr 36px 1fr',
+              gap: isMobile ? '6px' : '10px', alignItems: 'center', marginBottom: '10px',
             }}>
               <div style={{
                 background: '#FFF5F5', border: '1px solid #F5C6C6',
-                borderRadius: '8px', padding: '10px 12px',
-                fontSize: '12px', color: '#7A2020', lineHeight: 1.45,
+                borderRadius: '8px', padding: isMobile ? '8px' : '10px 12px',
+                fontSize: isMobile ? '11px' : '12px', color: '#7A2020', lineHeight: 1.45,
               }}>
                 {before}
               </div>
-              <div style={{ textAlign: 'center', fontSize: '16px', color: GOLD }}>→</div>
+              <div style={{ textAlign: 'center', fontSize: isMobile ? '12px' : '16px', color: GOLD }}>→</div>
               <div style={{
                 background: '#F0FDF4', border: '1px solid #86EFAC',
-                borderRadius: '8px', padding: '10px 12px',
-                fontSize: '12px', color: '#14532D', lineHeight: 1.45,
+                borderRadius: '8px', padding: isMobile ? '8px' : '10px 12px',
+                fontSize: isMobile ? '11px' : '12px', color: '#14532D', lineHeight: 1.45,
               }}>
                 {after}
               </div>
@@ -1425,7 +1458,7 @@ const LaajExplainer = () => {
       <section style={{
         background: `linear-gradient(160deg, ${MAROON} 0%, #220810 100%)`,
         position: 'relative', overflow: 'hidden',
-        padding: '72px 24px 64px',
+        padding: isMobile ? '48px 16px 40px' : '72px 24px 64px',
       }}>
         <div style={{
           position: 'absolute', inset: 0, opacity: 0.05,

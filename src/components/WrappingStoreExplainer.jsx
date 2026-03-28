@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useResponsive } from '../hooks/useResponsive';
 
 const PLUM  = '#4A1942';
 const ROSE  = '#B76E79';
@@ -451,6 +452,8 @@ function ProspectDetailPanel({ detail, name, stage }) {
 function ProspectsTableMock() {
   const [activeTab, setActiveTab] = useState(0);
   const [expandedRow, setExpandedRow] = useState(null);
+  const { isMobile } = useResponsive();
+  const visibleTabs = isMobile ? STAGE_TABS.slice(0, 3) : STAGE_TABS;
 
   return (
     <div style={{
@@ -484,7 +487,7 @@ function ProspectsTableMock() {
         borderBottom: `1px solid ${PLUM}12`,
         padding: '0 16px',
       }}>
-        {STAGE_TABS.map((tab, i) => (
+        {visibleTabs.map((tab, i) => (
           <button
             key={i}
             onClick={() => setActiveTab(i)}
@@ -584,9 +587,10 @@ function ProspectsTableMock() {
    SECTION 3: Prospect Detail Mock (combined)
 ══════════════════════════════════════ */
 function ProspectDetailMock() {
+  const { isMobile } = useResponsive();
   return (
     <div style={{
-      display: 'grid', gridTemplateColumns: '1fr 260px', gap: '32px',
+      display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 260px', gap: isMobile ? '20px' : '32px',
       alignItems: 'flex-start',
     }}>
       {/* Left — detail card */}
@@ -623,26 +627,55 @@ function ProspectDetailMock() {
         {/* Stage Progress */}
         <div style={{ padding: '14px 18px', borderBottom: `1px solid ${PLUM}10` }}>
           <div style={{ fontSize: '9px', fontWeight: 700, color: MUTED, letterSpacing: '0.1em', marginBottom: '10px' }}>STAGE PROGRESS</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0', overflowX: 'auto' }}>
-            {['Inquiry', 'Product Selection', 'Price Shared', 'Negotiation', 'Order Confirmed', 'Payment Pending'].map((s, i) => {
-              const isActive = s === 'Price Shared';
-              const isDone = i < 2;
-              return (
-                <React.Fragment key={s}>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', minWidth: '72px' }}>
-                    <div style={{
-                      width: '10px', height: '10px', borderRadius: '50%',
-                      background: isActive ? PLUM : isDone ? ROSE : `${PLUM}30`,
-                      border: isActive ? `2px solid ${ROSE}` : 'none',
-                      flexShrink: 0,
-                    }} />
-                    <span style={{ fontSize: '8px', color: isActive ? PLUM : isDone ? ROSE : MUTED, fontWeight: isActive ? 700 : 400, textAlign: 'center', lineHeight: 1.2 }}>{s}</span>
+          {isMobile ? (
+            /* Vertical stepper on mobile */
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {['Inquiry', 'Product Selection', 'Price Shared', 'Negotiation', 'Order Confirmed', 'Payment Pending'].map((s, i, arr) => {
+                const isActive = s === 'Price Shared';
+                const isDone = i < 2;
+                return (
+                  <div key={s} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                      <div style={{
+                        width: '10px', height: '10px', borderRadius: '50%', marginTop: '2px',
+                        background: isActive ? PLUM : isDone ? ROSE : `${PLUM}30`,
+                        border: isActive ? `2px solid ${ROSE}` : 'none',
+                        flexShrink: 0,
+                      }} />
+                      {i < arr.length - 1 && <div style={{ width: '1px', height: '18px', background: isDone ? ROSE : `${PLUM}20` }} />}
+                    </div>
+                    <span style={{
+                      fontSize: '11px', lineHeight: 1.2, paddingBottom: i < arr.length - 1 ? '8px' : '0',
+                      color: isActive ? PLUM : isDone ? ROSE : MUTED,
+                      fontWeight: isActive ? 700 : 400,
+                    }}>{s}</span>
                   </div>
-                  {i < 5 && <div style={{ height: '1px', flex: 1, background: isDone ? ROSE : `${PLUM}20`, marginBottom: '14px', flexShrink: 0, minWidth: '8px' }} />}
-                </React.Fragment>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            /* Horizontal tracker on desktop */
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+              {['Inquiry', 'Product Selection', 'Price Shared', 'Negotiation', 'Order Confirmed', 'Payment Pending'].map((s, i) => {
+                const isActive = s === 'Price Shared';
+                const isDone = i < 2;
+                return (
+                  <React.Fragment key={s}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', minWidth: '72px' }}>
+                      <div style={{
+                        width: '10px', height: '10px', borderRadius: '50%',
+                        background: isActive ? PLUM : isDone ? ROSE : `${PLUM}30`,
+                        border: isActive ? `2px solid ${ROSE}` : 'none',
+                        flexShrink: 0,
+                      }} />
+                      <span style={{ fontSize: '8px', color: isActive ? PLUM : isDone ? ROSE : MUTED, fontWeight: isActive ? 700 : 400, textAlign: 'center', lineHeight: 1.2 }}>{s}</span>
+                    </div>
+                    {i < 5 && <div style={{ height: '1px', flex: 1, background: isDone ? ROSE : `${PLUM}20`, marginBottom: '14px', flexShrink: 0, minWidth: '8px' }} />}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Items Discussed (Dashboard 1 style) */}
@@ -731,6 +764,7 @@ const STALE_ROWS = [
 
 function StaleProspectMock() {
   const [highlighted, setHighlighted] = useState(0);
+  const { isMobile } = useResponsive();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -740,7 +774,7 @@ function StaleProspectMock() {
   }, []);
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'flex-start' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '24px' : '48px', alignItems: 'flex-start' }}>
       {/* Left — stale list */}
       <div>
         <div style={{ fontSize: '9px', fontWeight: 700, color: MUTED, letterSpacing: '0.12em', marginBottom: '12px' }}>
@@ -849,6 +883,7 @@ const FUNNEL_STAGES = [
 function FunnelMock() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
+  const { isMobile } = useResponsive();
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -860,7 +895,7 @@ function FunnelMock() {
   }, []);
 
   return (
-    <div ref={ref} style={{ display: 'grid', gridTemplateColumns: '1fr 240px', gap: '40px', alignItems: 'flex-start' }}>
+    <div ref={ref} style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 240px', gap: isMobile ? '24px' : '40px', alignItems: 'flex-start' }}>
       {/* Left — funnel bars */}
       <div>
         {FUNNEL_STAGES.map((s, i) => (
@@ -991,6 +1026,7 @@ function RevenueBarsMock() {
 ══════════════════════════════════════ */
 const WrappingStoreExplainer = () => {
   const [heroVisible, setHeroVisible] = useState(false);
+  const { isMobile } = useResponsive();
 
   useEffect(() => {
     const t = setTimeout(() => setHeroVisible(true), 300);
@@ -1018,7 +1054,7 @@ const WrappingStoreExplainer = () => {
       <section style={{
         background: `linear-gradient(160deg, ${PLUM} 0%, #17051A 100%)`,
         position: 'relative', overflow: 'hidden',
-        padding: '80px 24px 72px',
+        padding: isMobile ? '48px 16px 40px' : '80px 24px 72px',
       }}>
         {/* Crosshatch overlay */}
         <div style={{
@@ -1049,7 +1085,7 @@ const WrappingStoreExplainer = () => {
           {/* H1 */}
           <h1 style={{
             fontFamily: "'Cormorant Garamond', serif",
-            fontSize: '42px', fontWeight: 700,
+            fontSize: isMobile ? '30px' : '42px', fontWeight: 700,
             color: '#fff', lineHeight: 1.2, margin: '0 0 20px',
           }}>
             The Wrapping Store —<br />
@@ -1067,7 +1103,7 @@ const WrappingStoreExplainer = () => {
 
           {/* Stat strip */}
           <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px',
+            display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '12px',
             opacity: heroVisible ? 1 : 0,
             transform: heroVisible ? 'translateY(0)' : 'translateY(16px)',
             transition: 'opacity 0.8s ease, transform 0.8s ease',
@@ -1093,7 +1129,7 @@ const WrappingStoreExplainer = () => {
       </section>
 
       {/* ════════════ SECTION 1: PROSPECTS VIEW ════════════ */}
-      <section style={{ padding: '72px 24px', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: isMobile ? '40px 16px' : '72px 24px', maxWidth: '900px', margin: '0 auto' }}>
         <Reveal>
           <SectionHead label="01 — THE PIPELINE" title="Every WhatsApp conversation becomes a tracked deal." />
         </Reveal>
@@ -1124,7 +1160,7 @@ const WrappingStoreExplainer = () => {
       {/* ════════════ SECTION 2: AI INTELLIGENCE ════════════ */}
       <section style={{
         background: '#fff', borderTop: `1px solid ${PLUM}12`,
-        borderBottom: `1px solid ${PLUM}12`, padding: '72px 24px',
+        borderBottom: `1px solid ${PLUM}12`, padding: isMobile ? '40px 16px' : '72px 24px',
       }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <Reveal>
@@ -1153,7 +1189,7 @@ const WrappingStoreExplainer = () => {
 
       {/* ════════════ SECTION 3: STALE PROSPECTS ════════════ */}
       <section style={{
-        background: '#FDF0F2', padding: '80px 24px',
+        background: '#FDF0F2', padding: isMobile ? '48px 16px' : '80px 24px',
         position: 'relative', overflow: 'hidden',
         borderTop: `1px solid ${ROSE}22`,
       }}>
@@ -1189,7 +1225,7 @@ const WrappingStoreExplainer = () => {
 
       {/* ════════════ SECTION 4: SALES FUNNEL ════════════ */}
       <section style={{
-        background: '#fff', borderTop: `1px solid ${PLUM}12`, padding: '72px 24px',
+        background: '#fff', borderTop: `1px solid ${PLUM}12`, padding: isMobile ? '40px 16px' : '72px 24px',
       }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <Reveal>
@@ -1207,7 +1243,7 @@ const WrappingStoreExplainer = () => {
       </section>
 
       {/* ════════════ SECTION 5: PRODUCT INTELLIGENCE ════════════ */}
-      <section style={{ background: '#fff', borderTop: `1px solid ${PLUM}12`, padding: '72px 24px' }}>
+      <section style={{ background: '#fff', borderTop: `1px solid ${PLUM}12`, padding: isMobile ? '40px 16px' : '72px 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         <Reveal>
           <SectionHead label="04 — PRODUCT INTELLIGENCE" title="What your customers actually want." />
@@ -1218,7 +1254,7 @@ const WrappingStoreExplainer = () => {
           </p>
         </Reveal>
         <Reveal delay={100}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '48px', alignItems: 'flex-start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 280px', gap: isMobile ? '24px' : '48px', alignItems: 'flex-start' }}>
             {/* Word Cloud */}
             <div style={{
               background: '#fff', borderRadius: '14px',
@@ -1229,20 +1265,43 @@ const WrappingStoreExplainer = () => {
               <div style={{ fontSize: '9px', fontWeight: 700, color: MUTED, letterSpacing: '0.12em', marginBottom: '16px' }}>
                 PRODUCT POPULARITY — TOP ITEMS DISCUSSED
               </div>
-              <div style={{ position: 'relative', height: '240px', userSelect: 'none' }}>
-                {CLOUD_WORDS.map(([text, size, color, opacity, top, left, rotate]) => (
-                  <span key={text} style={{
-                    position: 'absolute', top, left,
-                    fontSize: `${size}px`, fontWeight: 700,
-                    color, opacity,
-                    transform: `rotate(${rotate}deg)`,
-                    fontFamily: "'Cormorant Garamond', serif",
-                    whiteSpace: 'nowrap',
-                  }}>
-                    {text}
-                  </span>
-                ))}
-              </div>
+              {isMobile ? (
+                /* Pill tag layout on mobile */
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {CLOUD_WORDS.map(([text, size, color, opacity]) => (
+                    <span key={text} style={{
+                      fontSize: `${Math.max(11, Math.min(size * 0.55, 18))}px`,
+                      fontWeight: 700,
+                      color,
+                      opacity,
+                      fontFamily: "'Cormorant Garamond', serif",
+                      padding: '4px 10px',
+                      background: `${color}10`,
+                      borderRadius: '20px',
+                      border: `1px solid ${color}30`,
+                      whiteSpace: 'nowrap',
+                    }}>
+                      {text}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                /* Absolute positioned cloud on desktop */
+                <div style={{ position: 'relative', height: '240px', userSelect: 'none' }}>
+                  {CLOUD_WORDS.map(([text, size, color, opacity, top, left, rotate]) => (
+                    <span key={text} style={{
+                      position: 'absolute', top, left,
+                      fontSize: `${size}px`, fontWeight: 700,
+                      color, opacity,
+                      transform: `rotate(${rotate}deg)`,
+                      fontFamily: "'Cormorant Garamond', serif",
+                      whiteSpace: 'nowrap',
+                    }}>
+                      {text}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Revenue bars */}
@@ -1255,7 +1314,7 @@ const WrappingStoreExplainer = () => {
       {/* ════════════ BEFORE / AFTER ════════════ */}
       <section style={{
         background: CREAM, borderTop: `1px solid ${PLUM}12`,
-        padding: '72px 24px',
+        padding: isMobile ? '40px 16px' : '72px 24px',
       }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         <Reveal>
@@ -1264,21 +1323,21 @@ const WrappingStoreExplainer = () => {
         {BEFORE_AFTER.map(({ before, after }, i) => (
           <Reveal key={i} delay={i * 50}>
             <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 36px 1fr',
-              gap: '10px', alignItems: 'center', marginBottom: '10px',
+              display: 'grid', gridTemplateColumns: isMobile ? '1fr 20px 1fr' : '1fr 36px 1fr',
+              gap: isMobile ? '6px' : '10px', alignItems: 'center', marginBottom: '10px',
             }}>
               <div style={{
                 background: '#FFF5F5', border: '1px solid #F5C6C6',
-                borderRadius: '8px', padding: '10px 12px',
-                fontSize: '12px', color: '#7A2020', lineHeight: 1.45,
+                borderRadius: '8px', padding: isMobile ? '8px' : '10px 12px',
+                fontSize: isMobile ? '11px' : '12px', color: '#7A2020', lineHeight: 1.45,
               }}>
                 {before}
               </div>
-              <div style={{ textAlign: 'center', fontSize: '16px', color: ROSE }}>→</div>
+              <div style={{ textAlign: 'center', fontSize: isMobile ? '12px' : '16px', color: ROSE }}>→</div>
               <div style={{
                 background: '#F0FDF4', border: '1px solid #86EFAC',
-                borderRadius: '8px', padding: '10px 12px',
-                fontSize: '12px', color: '#14532D', lineHeight: 1.45,
+                borderRadius: '8px', padding: isMobile ? '8px' : '10px 12px',
+                fontSize: isMobile ? '11px' : '12px', color: '#14532D', lineHeight: 1.45,
               }}>
                 {after}
               </div>
@@ -1292,7 +1351,7 @@ const WrappingStoreExplainer = () => {
       <section style={{
         background: `linear-gradient(160deg, ${PLUM} 0%, #17051A 100%)`,
         position: 'relative', overflow: 'hidden',
-        padding: '72px 24px 64px',
+        padding: isMobile ? '48px 16px 40px' : '72px 24px 64px',
       }}>
         <div style={{
           position: 'absolute', inset: 0, opacity: 0.05,

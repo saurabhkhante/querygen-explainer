@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useResponsive } from '../hooks/useResponsive';
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 const SLATE    = '#1E293B';
@@ -55,9 +56,11 @@ function SectionHead({ label, heading }) {
 
 // ─── WhatsApp phone ───────────────────────────────────────────────────────────
 function PhoneMock({ groupName, participants, children, tab, setTab }) {
+  const { isMobile } = useResponsive();
   return (
     <div style={{
-      width: 290,
+      width: isMobile ? '100%' : 290,
+      maxWidth: 290,
       background: '#111',
       borderRadius: 32,
       padding: '6px 6px 10px',
@@ -290,6 +293,7 @@ const LEADERBOARD = [
 ];
 
 function DashboardMock({ activeTab, setActiveTab, expandedRow, setExpandedRow }) {
+  const { isMobile } = useResponsive();
   return (
     <div style={{
       background: '#fff', borderRadius: 16,
@@ -315,7 +319,7 @@ function DashboardMock({ activeTab, setActiveTab, expandedRow, setExpandedRow })
       </div>
 
       {/* Summary cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, borderBottom: '1px solid #f1f5f9' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: 0, borderBottom: '1px solid #f1f5f9' }}>
         {[
           { label: 'TRIPS',      value: '23',      sub: '9 vehicles',    icon: '📦' },
           { label: 'LOAD',       value: '849.5t',  sub: 'Total tonnes',  icon: '⚖️' },
@@ -346,8 +350,16 @@ function DashboardMock({ activeTab, setActiveTab, expandedRow, setExpandedRow })
       </div>
 
       {/* Header row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '20px 60px 36px 58px 70px 44px 56px 16px', gap: 0, padding: '4px 16px 6px', background: '#f8fafc' }}>
-        {['#', 'VEHICLE', 'TRIPS', 'WEIGHT', 'PAYOUT', 'FILL', 'EFF', ''].map(h => (
+      <div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '20px 1fr 70px 56px 16px' : '20px 60px 36px 58px 70px 44px 56px 16px',
+        gap: 0, padding: '4px 16px 6px', background: '#f8fafc',
+      }}>
+        {(isMobile
+          ? ['#', 'VEHICLE', 'PAYOUT', 'EFF', '']
+          : ['#', 'VEHICLE', 'TRIPS', 'WEIGHT', 'PAYOUT', 'FILL', 'EFF', '']
+        ).map(h => (
           <span key={h} style={{ fontSize: 8.5, fontWeight: 700, color: MUTED, letterSpacing: '0.07em' }}>{h}</span>
         ))}
       </div>
@@ -357,7 +369,8 @@ function DashboardMock({ activeTab, setActiveTab, expandedRow, setExpandedRow })
           <div
             onClick={() => setExpandedRow(expandedRow === i ? null : i)}
             style={{
-              display: 'grid', gridTemplateColumns: '20px 60px 36px 58px 70px 44px 56px 16px',
+              display: 'grid',
+              gridTemplateColumns: isMobile ? '20px 1fr 70px 56px 16px' : '20px 60px 36px 58px 70px 44px 56px 16px',
               gap: 0, padding: '9px 16px',
               borderTop: '1px solid #f8fafc',
               background: row.flag ? `${AMBER}10` : expandedRow === i ? '#f8fafc' : '#fff',
@@ -371,10 +384,10 @@ function DashboardMock({ activeTab, setActiveTab, expandedRow, setExpandedRow })
           >
             <span style={{ fontSize: 10, color: MUTED }}>{row.rank}</span>
             <span style={{ fontSize: 11.5, fontWeight: 700, color: INK }}>{row.vehicle}</span>
-            <span style={{ fontSize: 11, color: INK, textAlign: 'center' }}>{row.trips}</span>
-            <span style={{ fontSize: 11, color: MUTED }}>{row.weight}</span>
+            {!isMobile && <span style={{ fontSize: 11, color: INK, textAlign: 'center' }}>{row.trips}</span>}
+            {!isMobile && <span style={{ fontSize: 11, color: MUTED }}>{row.weight}</span>}
             <span style={{ fontSize: 11, fontWeight: 600, color: GREEN }}>{row.payout}</span>
-            <span style={{ fontSize: 11, color: '#3B82F6' }}>{row.fill}</span>
+            {!isMobile && <span style={{ fontSize: 11, color: '#3B82F6' }}>{row.fill}</span>}
             <span style={{ fontSize: 11, fontWeight: 700, color: row.effColor }}>{row.eff}</span>
             <span style={{ fontSize: 11, color: MUTED, textAlign: 'right' }}>
               {expandedRow === i ? '▲' : '▼'}
@@ -414,6 +427,8 @@ function DashboardMock({ activeTab, setActiveTab, expandedRow, setExpandedRow })
         </div>
       ))}
 
+      </div>{/* end scroll wrapper */}
+
       <div style={{ padding: '10px 16px', borderTop: '1px solid #f1f5f9' }}>
         <span style={{ fontSize: 10, color: MUTED }}>Click any row to expand · Auto-refreshed from WhatsApp</span>
       </div>
@@ -426,6 +441,7 @@ export default function CharuConstructionsExplainer() {
   const [activeTab, setActiveTab]   = useState('Payout');
   const [expandedRow, setExpandedRow] = useState(4); // anomaly row open by default
   const [chaosTab, setChaosTab]     = useState('Dispatch Details');
+  const { isMobile } = useResponsive();
 
   // OCR section
   const [ocrVisible, setOcrVisible] = useState(false);
@@ -446,9 +462,9 @@ export default function CharuConstructionsExplainer() {
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section style={{
         background: `linear-gradient(150deg, ${SLATE} 0%, #0d1829 100%)`,
-        padding: '88px 40px 80px',
+        padding: isMobile ? '56px 16px 48px' : '88px 40px 80px',
         position: 'relative', overflow: 'hidden',
-        minHeight: '88vh', display: 'flex', flexDirection: 'column',
+        minHeight: isMobile ? 'auto' : '88vh', display: 'flex', flexDirection: 'column',
         justifyContent: 'center', alignItems: 'center', textAlign: 'center',
       }}>
         {/* Grid overlay */}
@@ -521,7 +537,7 @@ export default function CharuConstructionsExplainer() {
       </section>
 
       {/* ── TLDR ─────────────────────────────────────────────────────── */}
-      <section style={{ padding: '72px 40px', maxWidth: 1000, margin: '0 auto' }}>
+      <section style={{ padding: isMobile ? '40px 16px' : '72px 40px', maxWidth: 1000, margin: '0 auto' }}>
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: AMBER, marginBottom: 12 }}>
@@ -539,15 +555,15 @@ export default function CharuConstructionsExplainer() {
 
         {/* Flow: 3 equal cards + connecting line */}
         <Reveal delay={0.1}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 0, position: 'relative' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr', gap: isMobile ? '12px' : 0, position: 'relative' }}>
 
-            {/* Connecting line between cards only */}
-            <div style={{
+            {/* Connecting line between cards only — desktop only */}
+            {!isMobile && <div style={{
               position: 'absolute', top: 52, left: '33.33%', right: '33.33%',
               height: 1,
               background: '#e2e8f0',
               zIndex: 0,
-            }} />
+            }} />}
 
             {[
               {
@@ -585,8 +601,8 @@ export default function CharuConstructionsExplainer() {
               },
             ].map((card, i) => (
               <div key={card.label} style={{ padding: '0 10px', position: 'relative', zIndex: 1 }}>
-                {/* Arrow between cards */}
-                {i > 0 && (
+                {/* Arrow between cards — desktop only */}
+                {i > 0 && !isMobile && (
                   <div style={{
                     position: 'absolute', left: -4, top: 44,
                     width: 24, height: 24,
@@ -641,9 +657,10 @@ export default function CharuConstructionsExplainer() {
           }}>
             <div style={{
               background: SLATE, borderRadius: 12, padding: '16px 24px',
-              display: 'grid',
-              gridTemplateColumns: 'auto 1px 1fr 1px 1fr 1px 1fr 1px 1fr',
-              alignItems: 'center', gap: '0 16px',
+              display: isMobile ? 'flex' : 'grid',
+              flexDirection: isMobile ? 'column' : undefined,
+              gridTemplateColumns: isMobile ? undefined : 'auto 1px 1fr 1px 1fr 1px 1fr 1px 1fr',
+              alignItems: isMobile ? 'flex-start' : 'center', gap: isMobile ? '8px' : '0 16px',
             }}>
               <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Value
@@ -655,7 +672,7 @@ export default function CharuConstructionsExplainer() {
                 { v: 'Leakage detectable', l: 'impossible before' },
               ].map(({ v, l }) => (
                 <>
-                  <div key={`div-${v}`} style={{ width: 1, height: 20, background: 'rgba(255,255,255,0.1)' }} />
+                  {!isMobile && <div key={`div-${v}`} style={{ width: 1, height: 20, background: 'rgba(255,255,255,0.1)' }} />}
                   <div key={v}>
                     <div style={{ fontSize: 12, fontWeight: 700, color: '#fff' }}>{v}</div>
                     <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.38)', marginTop: 1 }}>{l}</div>
@@ -668,8 +685,8 @@ export default function CharuConstructionsExplainer() {
       </section>
 
       {/* ── SECTION 1: CHAOS ─────────────────────────────────────────── */}
-      <section style={{ padding: '96px 40px', maxWidth: 960, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+      <section style={{ padding: isMobile ? '40px 16px' : '96px 40px', maxWidth: 960, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '32px' : 64, alignItems: 'center' }}>
           <div>
             <Reveal>
               <SectionHead label="Before QueryGen" heading="The ops record was a WhatsApp scroll." />
@@ -795,7 +812,7 @@ export default function CharuConstructionsExplainer() {
       </section>
 
       {/* ── SECTION 2: OCR ────────────────────────────────────────────── */}
-      <section style={{ background: `${SLATE}05`, padding: '96px 40px' }}>
+      <section style={{ background: `${SLATE}05`, padding: isMobile ? '40px 16px' : '96px 40px' }}>
         <div style={{ maxWidth: 960, margin: '0 auto' }}>
           <Reveal>
             <div style={{ textAlign: 'center', marginBottom: 60 }}>
@@ -806,19 +823,19 @@ export default function CharuConstructionsExplainer() {
             </div>
           </Reveal>
 
-          <div ref={ocrRef} style={{ display: 'grid', gridTemplateColumns: '1fr 80px 1fr', alignItems: 'center', gap: 0 }}>
-            <Reveal delay={0.1} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div ref={ocrRef} style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 80px 1fr', alignItems: 'center', gap: 0 }}>
+            <Reveal delay={0.1} style={{ display: 'flex', justifyContent: isMobile ? 'center' : 'flex-end' }}>
               <ThermalReceipt animated visible={ocrVisible} />
             </Reveal>
 
             {/* Arrow */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, padding: isMobile ? '16px 0' : 0 }}>
               <div style={{
                 width: 44, height: 44, background: AMBER, borderRadius: '50%',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 20, boxShadow: `0 0 0 8px ${AMBER}22`,
                 color: '#fff', fontWeight: 700,
-              }}>→</div>
+              }}>{isMobile ? '↓' : '→'}</div>
               <span style={{ fontSize: 9, color: MUTED, textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'center' }}>OCR</span>
             </div>
 
@@ -836,7 +853,7 @@ export default function CharuConstructionsExplainer() {
       </section>
 
       {/* ── SECTION 3: DASHBOARD ─────────────────────────────────────── */}
-      <section style={{ padding: '96px 40px', maxWidth: 1060, margin: '0 auto' }}>
+      <section style={{ padding: isMobile ? '40px 16px' : '96px 40px', maxWidth: 1060, margin: '0 auto' }}>
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <SectionHead label="Live Operations" heading="Every morning: a full picture." />
@@ -856,7 +873,7 @@ export default function CharuConstructionsExplainer() {
       </section>
 
       {/* ── SECTION 4: THE INSIGHT ───────────────────────────────────── */}
-      <section style={{ background: `${SLATE}05`, padding: '96px 40px' }}>
+      <section style={{ background: `${SLATE}05`, padding: isMobile ? '40px 16px' : '96px 40px' }}>
         <div style={{ maxWidth: 960, margin: '0 auto' }}>
           <Reveal>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
@@ -873,7 +890,7 @@ export default function CharuConstructionsExplainer() {
             </div>
           </Reveal>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 28 }}>
 
             {/* Left — human side */}
             <Reveal delay={0.1}>
@@ -952,7 +969,7 @@ export default function CharuConstructionsExplainer() {
           {/* Callout */}
           <Reveal delay={0.3}>
             <div style={{
-              marginTop: 40, padding: '36px 44px',
+              marginTop: 40, padding: isMobile ? '24px 20px' : '36px 44px',
               background: '#fff', border: '1px solid #e2e8f0',
               borderRadius: 20, textAlign: 'center',
               boxShadow: '0 4px 24px rgba(0,0,0,0.05)',
@@ -973,8 +990,8 @@ export default function CharuConstructionsExplainer() {
       </section>
 
       {/* ── SECTION 5: BILLING ────────────────────────────────────────── */}
-      <section style={{ padding: '96px 40px', maxWidth: 960, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
+      <section style={{ padding: isMobile ? '40px 16px' : '96px 40px', maxWidth: 960, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '32px' : 64, alignItems: 'start' }}>
           <div>
             <Reveal>
               <SectionHead label="Reports & Billing" heading="Per-vehicle reports. PDF-ready." />
@@ -1044,7 +1061,7 @@ export default function CharuConstructionsExplainer() {
       {/* ── CLOSING ──────────────────────────────────────────────────── */}
       <section style={{
         background: SLATE,
-        padding: '88px 40px',
+        padding: isMobile ? '56px 16px' : '88px 40px',
         textAlign: 'center',
         position: 'relative', overflow: 'hidden',
       }}>
@@ -1072,11 +1089,12 @@ export default function CharuConstructionsExplainer() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                display: 'inline-flex', alignItems: 'center', gap: 10,
+                display: isMobile ? 'flex' : 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 background: WA_GREEN, color: '#fff',
                 padding: '14px 32px', borderRadius: 50,
                 fontWeight: 700, fontSize: 15, textDecoration: 'none',
                 boxShadow: `0 8px 28px ${WA_GREEN}40`,
+                width: isMobile ? '100%' : 'auto', boxSizing: 'border-box',
               }}
             >
               <span style={{ fontSize: 18 }}>💬</span>
