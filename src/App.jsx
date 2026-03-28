@@ -15,6 +15,7 @@ import StoriesBCSlide from './components/StoriesBCSlide';
 import FeedBCSlide from './components/FeedBCSlide';
 import LaajExplainer from './components/LaajExplainer';
 import WrappingStoreExplainer from './components/WrappingStoreExplainer';
+import CharuConstructionsExplainer from './components/CharuConstructionsExplainer';
 import RevenueCalc from './components/RevenueCalc';
 import RevenueSimple from './components/RevenueSimple';
 import SlideBuilder from './components/SlideBuilder';
@@ -87,6 +88,7 @@ function App() {
                     <div className="flex gap-4 justify-center mb-6">
                       <Link to="/laaj-explainer" className="px-6 py-3 bg-[#6B1A2B] text-white rounded-lg hover:bg-[#4A0F1E] transition-colors font-medium text-lg">Laaj Creations Explainer</Link>
                       <Link to="/wrapping-store-explainer" className="px-6 py-3 bg-[#4A1942] text-white rounded-lg hover:bg-[#320F2C] transition-colors font-medium text-lg">The Wrapping Store Explainer</Link>
+                      <Link to="/charu-constructions-explainer" className="px-6 py-3 bg-[#1E293B] text-white rounded-lg hover:bg-[#0F172A] transition-colors font-medium text-lg">Charu Constructions Explainer</Link>
                     </div>
                   </div>
 
@@ -169,6 +171,7 @@ function App() {
           <Route path="/feed-bc-slide" element={<FeedBCSlide />} />
           <Route path="/laaj-explainer" element={<LaajExplainer />} />
           <Route path="/wrapping-store-explainer" element={<WrappingStoreExplainer />} />
+          <Route path="/charu-constructions-explainer" element={<CharuConstructionsExplainer />} />
           <Route path="/revenue-calc" element={<RevenueCalc />} />
           <Route path="/revenue-simple" element={<RevenueSimple />} />
           <Route path="/slide-builder" element={<SlideBuilder onSave={addSlide} />} />
