@@ -20,6 +20,8 @@ import RevenueCalc from './components/RevenueCalc';
 import RevenueSimple from './components/RevenueSimple';
 import SlideBuilder from './components/SlideBuilder';
 import CustomSlideRenderer from './components/CustomSlideRenderer';
+import AutopilotWizard from './components/AutopilotWizard';
+import AutopilotDashboard from './components/AutopilotDashboard';
 import { useCustomSlides } from './hooks/useCustomSlides';
 
 // Wrapper: renders a custom slide by :id
@@ -66,6 +68,23 @@ function App() {
                   <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">Querygen Explainer</h1>
                   <p className="mt-2 text-base text-gray-500">Select a format to preview or print</p>
                 </header>
+
+                {/* Autopilot */}
+                <section className="bg-white rounded-2xl shadow-sm border border-[#BBF7D0] p-5 sm:p-6">
+                  <div className="mb-4">
+                    <h2 className="text-xs font-semibold text-[#25D366] uppercase tracking-widest">Autopilot</h2>
+                    <p className="mt-1 text-sm text-gray-500">WhatsApp auto-reply setup wizard</p>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    <Link to="/autopilot-dashboard" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#25D366] hover:bg-[#1ebe5a] transition-colors text-center leading-snug gap-2">
+                      <span>Autopilot Dashboard</span>
+                      <span className="text-xs opacity-80">→</span>
+                    </Link>
+                    <Link to="/autopilot" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-[#25D366] border border-[#25D366] hover:bg-[#F0FDF4] transition-colors text-center leading-snug gap-2">
+                      <span>+ New Autopilot Setup Wizard</span>
+                    </Link>
+                  </div>
+                </section>
 
                 {/* Print Materials */}
                 <section className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 sm:p-6">
@@ -207,6 +226,8 @@ function App() {
           <Route path="/slide-builder" element={<SlideBuilder onSave={addSlide} />} />
           <Route path="/slide-builder/:id" element={<SlideBuilderEdit getSlide={getSlide} updateSlide={updateSlide} />} />
           <Route path="/custom-slide/:id" element={<CustomSlideRoute getSlide={getSlide} />} />
+          <Route path="/autopilot" element={<AutopilotWizard />} />
+          <Route path="/autopilot-dashboard" element={<AutopilotDashboard />} />
         </Routes>
       </div>
     </Router>
