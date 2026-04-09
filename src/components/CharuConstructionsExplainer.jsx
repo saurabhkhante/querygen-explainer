@@ -436,6 +436,29 @@ function DashboardMock({ activeTab, setActiveTab, expandedRow, setExpandedRow })
   );
 }
 
+// ─── Part header (numbered circle + label + heading) ─────────────────────────
+function PartHeader({ num, label, heading, light = false, amber = false, isMobile }) {
+  const accentColor = amber ? AMBER : (light ? AMBER : SLATE);
+  return (
+    <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '4px' }}>
+        <div style={{
+          width: '32px', height: '32px', borderRadius: '50%',
+          background: accentColor, color: '#fff',
+          fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: '16px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        }}>{num}</div>
+        <div style={{ fontSize: '10px', fontWeight: 700, color: amber ? AMBER : (light ? 'rgba(255,255,255,0.55)' : AMBER), letterSpacing: '0.14em', textTransform: 'uppercase' }}>{label}</div>
+      </div>
+      <h2 style={{
+        fontFamily: "'Cormorant Garamond', serif",
+        fontSize: isMobile ? '26px' : '34px', fontWeight: 700,
+        color: light ? '#fff' : INK, margin: '8px 0 0', lineHeight: 1.2,
+      }}>{heading}</h2>
+    </div>
+  );
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function CharuConstructionsExplainer() {
   const [activeTab, setActiveTab]   = useState('Payout');
@@ -684,8 +707,17 @@ export default function CharuConstructionsExplainer() {
         </Reveal>
       </section>
 
+      {/* ── PART 01 HEADER ───────────────────────────────────────────── */}
+      <section style={{ background: CREAM, padding: isMobile ? '52px 16px 8px' : '64px 40px 8px', borderTop: '1px solid #e2e8f0' }}>
+        <Reveal>
+          <PartHeader num="1" label="The Problem" isMobile={isMobile}
+            heading={<>50+ messages a day.<br /><em style={{ color: AMBER, fontStyle: 'italic' }}>The owner could see none of it.</em></>}
+          />
+        </Reveal>
+      </section>
+
       {/* ── SECTION 1: CHAOS ─────────────────────────────────────────── */}
-      <section style={{ padding: isMobile ? '40px 16px' : '96px 40px', maxWidth: 960, margin: '0 auto' }}>
+      <section style={{ padding: isMobile ? '24px 16px 64px' : '28px 40px 80px', maxWidth: 960, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '32px' : 64, alignItems: 'center' }}>
           <div>
             <Reveal>
@@ -809,6 +841,15 @@ export default function CharuConstructionsExplainer() {
             </div>
           </Reveal>
         </div>
+      </section>
+
+      {/* ── PART 02 HEADER ───────────────────────────────────────────── */}
+      <section style={{ background: SLATE, padding: isMobile ? '52px 16px 8px' : '64px 40px 8px' }}>
+        <Reveal>
+          <PartHeader num="2" label="The Solution" light isMobile={isMobile}
+            heading={<>Querygen reads every message —<br /><em style={{ color: AMBER, fontStyle: 'italic' }}>and builds a live ops system from it.</em></>}
+          />
+        </Reveal>
       </section>
 
       {/* ── SECTION 2: OCR ────────────────────────────────────────────── */}
@@ -1053,6 +1094,66 @@ export default function CharuConstructionsExplainer() {
                 <span style={{ fontSize: 12, fontWeight: 700, color: INK }}>Total Fuel Deduction</span>
                 <span style={{ fontSize: 14, fontWeight: 800, color: RED }}>₹71,660</span>
               </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── PART 03 HEADER + IMPACT ──────────────────────────────────── */}
+      <section style={{ background: SLATE, padding: isMobile ? '52px 16px 8px' : '64px 40px 8px' }}>
+        <Reveal>
+          <PartHeader num="3" label="The Impact" light isMobile={isMobile}
+            heading={<>What changed when the owner<br /><em style={{ color: AMBER, fontStyle: 'italic' }}>could finally see everything.</em></>}
+          />
+        </Reveal>
+      </section>
+
+      <section style={{ background: `${SLATE}04`, padding: isMobile ? '32px 16px 64px' : '40px 40px 80px' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+
+          {/* Stat row */}
+          <Reveal delay={60}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '12px', marginBottom: '32px' }}>
+              {[
+                { v: '982', l: 'Trips tracked', icon: '📦' },
+                { v: '18,754L', l: 'Fuel logged & verified', icon: '⛽' },
+                { v: '₹39.8L', l: 'Payouts auto-calculated', icon: '💰' },
+                { v: '0', l: 'Hours of manual entry', icon: '⏱️' },
+              ].map(({ v, l, icon }, i) => (
+                <Reveal key={v} delay={i * 60}>
+                  <div style={{
+                    background: '#fff', borderRadius: '14px',
+                    padding: '20px 18px',
+                    border: `1px solid ${AMBER}25`,
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+                  }}>
+                    <div style={{ fontSize: '20px', marginBottom: '8px' }}>{icon}</div>
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '32px', fontWeight: 700, color: SLATE, lineHeight: 1 }}>{v}</div>
+                    <div style={{ fontSize: '11px', color: MUTED, marginTop: '5px', lineHeight: 1.4 }}>{l}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* Before / After */}
+          <Reveal delay={120}>
+            <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 2px 16px rgba(0,0,0,0.04)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                <div style={{ padding: '10px 20px', fontSize: '10px', fontWeight: 700, color: RED, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Before</div>
+                <div style={{ padding: '10px 20px', fontSize: '10px', fontWeight: 700, color: GREEN, letterSpacing: '0.1em', textTransform: 'uppercase', borderLeft: '1px solid #e2e8f0' }}>After</div>
+              </div>
+              {[
+                { before: 'Dispatch slips buried in 2am WhatsApp messages', after: 'Every trip auto-extracted, logged, timestamped' },
+                { before: 'Fuel receipts unverifiable — admin just trusted', after: 'OCR reads every receipt. Volume + amount locked.' },
+                { before: 'Payouts calculated manually — hours of work', after: 'Per-vehicle billing auto-calculated, PDF-ready' },
+                { before: '38% fuel anomaly on 2318 DC — invisible for months', after: 'Flagged within days. Route deviation or siphoning caught.' },
+              ].map(({ before, after }, i) => (
+                <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderTop: i > 0 ? '1px solid #f1f5f9' : 'none' }}>
+                  <div style={{ padding: '14px 20px', fontSize: '13px', color: MUTED, lineHeight: 1.5 }}>{before}</div>
+                  <div style={{ padding: '14px 20px', fontSize: '13px', color: INK, lineHeight: 1.5, fontWeight: 500, borderLeft: '1px solid #f1f5f9', background: `${GREEN}04` }}>{after}</div>
+                </div>
+              ))}
             </div>
           </Reveal>
         </div>

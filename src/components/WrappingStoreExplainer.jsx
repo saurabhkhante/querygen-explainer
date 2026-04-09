@@ -868,16 +868,10 @@ function StaleProspectMock() {
 ══════════════════════════════════════ */
 const FUNNEL_STAGES = [
   { label: 'Inquiry',           count: 251, pct: 100,  dropPct: null,   color: '#6366F1', targetWidth: '100%' },
-  { label: 'Price Shared',      count: 121, pct: 48,   dropPct: '-52%', color: '#818CF8', targetWidth: '88%'  },
-  { label: 'Product Selection', count: 42,  pct: 35,   dropPct: '-65%', color: '#A78BFA', targetWidth: '72%', bigDrop: true },
-  { label: 'Negotiation',       count: 37,  pct: 88,   dropPct: '-12%', color: '#F59E0B', targetWidth: '60%'  },
-  { label: 'Quote Shared',      count: 36,  pct: 97,   dropPct: '-3%',  color: '#FBBF24', targetWidth: '56%'  },
-  { label: 'Order Confirmed',   count: 36,  pct: 100,  dropPct: '0%',   color: '#10B981', targetWidth: '54%'  },
-  { label: 'Payment Pending',   count: 33,  pct: 92,   dropPct: '-8%',  color: '#F97316', targetWidth: '50%', warn: true },
-  { label: 'Payment Received',  count: 27,  pct: 82,   dropPct: '-18%', color: '#22C55E', targetWidth: '44%'  },
-  { label: 'Shipped',           count: 9,   pct: 33,   dropPct: '-67%', color: '#3B82F6', targetWidth: '28%'  },
-  { label: 'Delivered',         count: 4,   pct: 44,   dropPct: null,   color: '#14B8A6', targetWidth: '20%'  },
-  { label: 'Closed Lost',       count: 6,   pct: null, dropPct: null,   color: '#F87171', targetWidth: '16%'  },
+  { label: 'Price Shared',      count: 121, pct: 48,   dropPct: '-52%', color: '#818CF8', targetWidth: '80%'  },
+  { label: 'Product Selection', count: 42,  pct: 35,   dropPct: '-65%', color: '#A78BFA', targetWidth: '58%', bigDrop: true },
+  { label: 'Negotiation',       count: 37,  pct: 88,   dropPct: '-12%', color: '#F59E0B', targetWidth: '44%'  },
+  { label: 'Order Confirmed',   count: 36,  pct: 97,   dropPct: null,   color: '#10B981', targetWidth: '36%'  },
 ];
 
 function FunnelMock() {
@@ -923,12 +917,12 @@ function FunnelMock() {
       {/* Right — stat callouts */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {[
-          { num: '7.5%', label: 'Inquiry → Payment', sub: 'Overall conversion rate' },
-          { num: '33', label: 'In Payment Pending', sub: '₹34,100 waiting to be collected', warn: true },
-          { num: '-65%', label: 'Biggest drop-off', sub: 'Inquiry → Product Selection', warn: true },
-        ].map(({ num, label, sub, warn }, i) => (
+          { num: '14%', label: 'Inquiry → Order Confirmed', sub: '36 out of 251 inquiries' },
+          { num: '-65%', label: 'Biggest drop-off', sub: 'Price Shared → Product Selection', warn: true },
+          { num: '37 → 36', label: 'Negotiation to Order', sub: 'Only -3% drop at final stage', highlight: true },
+        ].map(({ num, label, sub, warn, highlight }, i) => (
           <div key={i} style={{
-            background: warn ? '#FFF7ED' : `${PLUM}06`,
+            background: warn ? '#FFF7ED' : highlight ? `${PLUM}06` : `${PLUM}06`,
             border: `1px solid ${warn ? '#FED7AA' : `${PLUM}18`}`,
             borderRadius: '10px', padding: '14px 16px',
           }}>
@@ -948,7 +942,7 @@ function FunnelMock() {
         }}>
           <div style={{ fontSize: '10px', fontWeight: 700, color: '#C2410C', marginBottom: '4px' }}>💡 The opportunity</div>
           <div style={{ fontSize: '11px', color: '#9A3412', lineHeight: 1.5 }}>
-            33 prospects stuck in Payment Pending. Each one has already said yes. They just need a nudge.
+            121 inquiries got a price — only 42 picked a product. That -65% gap is where most revenue is lost.
           </div>
         </div>
       </div>
@@ -1043,307 +1037,412 @@ const WrappingStoreExplainer = () => {
     { before: '💰 Partial payments buried in chat, no structured record', after: '🧾 Payment card per prospect: Total / Paid / Due extracted automatically' },
   ];
 
+  /* ── Part divider header ── */
+  const PartHeader = ({ num, label, heading, light = false }) => (
+    <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '4px' }}>
+        <div style={{
+          width: '32px', height: '32px', borderRadius: '50%',
+          background: light ? ROSE : PLUM, color: '#fff',
+          fontFamily: "'Cormorant Garamond', serif",
+          fontWeight: 700, fontSize: '16px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        }}>{num}</div>
+        <div style={{ fontSize: '10px', fontWeight: 700, color: ROSE, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+          {label}
+        </div>
+      </div>
+      <h2 style={{
+        fontFamily: "'Cormorant Garamond', serif",
+        fontSize: isMobile ? '26px' : '34px', fontWeight: 700,
+        color: light ? '#fff' : INK, margin: '8px 0 0', lineHeight: 1.2,
+      }}>
+        {heading}
+      </h2>
+    </div>
+  );
+
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: CREAM, color: INK, minHeight: '100vh', overflowX: 'hidden' }}>
       <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@400;500;700&display=swap"
         rel="stylesheet"
       />
+      <style>{`
+        .tws-row:hover { background: ${PLUM}04 !important; }
+      `}</style>
 
       {/* ════════════ HERO ════════════ */}
       <section style={{
         background: `linear-gradient(160deg, ${PLUM} 0%, #17051A 100%)`,
         position: 'relative', overflow: 'hidden',
-        padding: isMobile ? '48px 16px 40px' : '80px 24px 72px',
+        padding: isMobile ? '52px 20px 44px' : '80px 32px 72px',
       }}>
-        {/* Crosshatch overlay */}
         <div style={{
           position: 'absolute', inset: 0, opacity: 0.05,
           backgroundImage: `repeating-linear-gradient(45deg, ${ROSE} 0, ${ROSE} 1px, transparent 1px, transparent 12px),
                             repeating-linear-gradient(-45deg, ${ROSE} 0, ${ROSE} 1px, transparent 1px, transparent 12px)`,
         }} />
-        {/* Radial glow */}
         <div style={{
           position: 'absolute', top: '-60px', right: '-60px',
           width: '400px', height: '400px', borderRadius: '50%',
           background: `radial-gradient(circle, ${ROSE}22 0%, transparent 70%)`,
         }} />
 
-        <div style={{ position: 'relative', maxWidth: '680px', margin: '0 auto' }}>
+        <div style={{ position: 'relative', maxWidth: '900px', margin: '0 auto' }}>
           {/* Badge */}
           <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '8px',
-            background: `${ROSE}22`, border: `1px solid ${ROSE}55`,
-            borderRadius: '20px', padding: '6px 14px', marginBottom: '24px',
+            opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'none' : 'translateY(10px)',
+            transition: 'all 0.5s ease 0.1s',
           }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ROSE }} />
-            <span style={{ fontSize: '10px', fontWeight: 700, color: ROSE, letterSpacing: '0.1em' }}>
-              A PROPOSAL FROM QUERYGEN
-            </span>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              background: `${ROSE}22`, border: `1px solid ${ROSE}55`,
+              borderRadius: '20px', padding: '6px 14px', marginBottom: '24px',
+            }}>
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ROSE }} />
+              <span style={{ fontSize: '10px', fontWeight: 700, color: ROSE, letterSpacing: '0.1em' }}>
+                The Wrapping Store · Mumbai
+              </span>
+            </div>
           </div>
 
-          {/* H1 */}
-          <h1 style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: isMobile ? '30px' : '42px', fontWeight: 700,
-            color: '#fff', lineHeight: 1.2, margin: '0 0 20px',
-          }}>
-            The Wrapping Store —<br />
-            <span style={{ color: ROSE, fontStyle: 'italic' }}>a pipeline that finds</span><br />
-            your missing sales.
-          </h1>
-
-          {/* Subtext */}
-          <p style={{
-            fontSize: '15px', lineHeight: 1.7,
-            color: 'rgba(255,255,255,0.65)', margin: '0 0 40px', maxWidth: '520px',
-          }}>
-            Right now, 253 WhatsApp conversations are black boxes. You don't know who's about to convert — and who went cold 3 weeks ago.
-          </p>
-
-          {/* Stat strip */}
           <div style={{
-            display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '12px',
-            opacity: heroVisible ? 1 : 0,
-            transform: heroVisible ? 'translateY(0)' : 'translateY(16px)',
-            transition: 'opacity 0.8s ease, transform 0.8s ease',
+            opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'none' : 'translateY(14px)',
+            transition: 'all 0.55s ease 0.2s',
+          }}>
+            <h1 style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: isMobile ? '32px' : '52px', fontWeight: 700,
+              color: '#fff', lineHeight: 1.1, margin: '0 0 8px', maxWidth: '640px',
+            }}>
+              253 WhatsApp conversations.<br />
+              <em style={{ color: ROSE }}>Most of them invisible.</em>
+            </h1>
+          </div>
+
+          <div style={{
+            opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'none' : 'translateY(14px)',
+            transition: 'all 0.55s ease 0.32s',
+          }}>
+            <p style={{
+              fontSize: '15px', lineHeight: 1.75,
+              color: 'rgba(255,255,255,0.62)', margin: '16px 0 36px', maxWidth: '500px',
+            }}>
+              A gifting business that runs on WhatsApp. Hundreds of prospects, payments, and follow-ups — all buried in chat. Here's how Querygen brought it all into the light.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'flex', flexWrap: 'wrap', gap: '10px',
+            opacity: heroVisible ? 1 : 0, transition: 'all 0.5s ease 0.46s',
           }}>
             {[
-              { num: '253', label: 'Prospects tracked' },
-              { num: '37',  label: 'Gone stale' },
-              { num: '7.5%', label: 'Inquiry → Payment' },
-            ].map(({ num, label }) => (
+              { icon: '📊', label: '11-stage pipeline' },
+              { icon: '🤖', label: 'AI next steps per lead' },
+              { icon: '⚠️', label: '37 stale leads recovered' },
+              { icon: '💰', label: '₹7.75L revenue tracked' },
+            ].map(({ icon, label }) => (
               <div key={label} style={{
-                background: `${ROSE}18`, border: `1px solid ${ROSE}44`,
-                borderRadius: '12px', padding: '16px 18px',
+                display: 'flex', alignItems: 'center', gap: '7px',
+                background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)',
+                borderRadius: '8px', padding: '7px 14px',
               }}>
-                <div style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: '30px', fontWeight: 700, color: ROSE, lineHeight: 1,
-                }}>{num}</div>
-                <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '4px' }}>{label}</div>
+                <span style={{ fontSize: '13px' }}>{icon}</span>
+                <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>{label}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ════════════ SECTION 1: PROSPECTS VIEW ════════════ */}
-      <section style={{ padding: isMobile ? '40px 16px' : '72px 24px', maxWidth: '900px', margin: '0 auto' }}>
+      {/* ══════════════════════════════════════════════════════
+          PART 01 — THE PROBLEM
+      ══════════════════════════════════════════════════════ */}
+      <section style={{ background: CREAM, padding: isMobile ? '52px 20px 12px' : '64px 32px 12px' }}>
         <Reveal>
-          <SectionHead label="01 — THE PIPELINE" title="Every WhatsApp conversation becomes a tracked deal." />
-        </Reveal>
-        <Reveal delay={60}>
-          <p style={{ fontSize: '14px', color: MUTED, lineHeight: 1.7, margin: '0 0 32px', maxWidth: '600px' }}>
-            Querygen reads every chat and builds a live pipeline automatically. No manual entry. No new tool for the team to learn. The dashboard just appears.
-          </p>
-        </Reveal>
-        <Reveal delay={120}>
-          <ProspectsTableMock />
-        </Reveal>
-        <Reveal delay={160}>
-          <div style={{ display: 'flex', gap: '24px', marginTop: '24px', flexWrap: 'wrap' }}>
-            {[
-              { num: '11', label: 'deal stages tracked' },
-              { num: '253', label: 'total prospects' },
-              { num: '230', label: 'active pipeline' },
-            ].map(({ num, label }) => (
-              <div key={label} style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: 700, color: PLUM }}>{num}</span>
-                <span style={{ fontSize: '12px', color: MUTED }}>{label}</span>
-              </div>
-            ))}
-          </div>
+          <PartHeader num="1" label="The Problem" heading={<>A gifting business growing fast —<br /><em style={{ color: ROSE, fontStyle: 'italic' }}>with no visibility into its own pipeline.</em></>} />
         </Reveal>
       </section>
 
-      {/* ════════════ SECTION 2: AI INTELLIGENCE ════════════ */}
-      <section style={{
-        background: '#fff', borderTop: `1px solid ${PLUM}12`,
-        borderBottom: `1px solid ${PLUM}12`, padding: isMobile ? '40px 16px' : '72px 24px',
-      }}>
+      <section style={{ background: CREAM, padding: isMobile ? '16px 20px 64px' : '20px 32px 72px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <Reveal>
-            <SectionHead label="02 — AI INTELLIGENCE" title="Every prospect gets a dedicated AI analyst." />
-          </Reveal>
+
+          {/* Big stat + problems in a horizontal strip */}
           <Reveal delay={60}>
-            <p style={{ fontSize: '14px', color: MUTED, lineHeight: 1.7, margin: '0 0 36px', maxWidth: '600px' }}>
-              Querygen reads every message in the thread and surfaces exactly what to do next — specific, actionable, and tailored to that conversation.
-            </p>
-          </Reveal>
-          <Reveal delay={100}>
-            <ProspectDetailMock />
-          </Reveal>
-          <Reveal delay={140}>
             <div style={{
-              marginTop: '32px', padding: '14px 20px',
-              background: `${PLUM}06`, border: `1px solid ${PLUM}18`,
-              borderRadius: '10px', fontSize: '13px', color: PLUM, lineHeight: 1.6,
-              textAlign: 'center',
+              display: 'grid',
+              gridTemplateColumns: isMobile ? '1fr' : '200px 1fr',
+              gap: '0',
+              marginBottom: '32px',
+              borderRadius: '18px',
+              overflow: 'hidden',
+              border: `1.5px solid ${PLUM}15`,
+              boxShadow: '0 4px 24px rgba(74,25,66,0.06)',
             }}>
-              "Every message. Every payment. Every stage change. Tracked automatically — without your team doing anything different."
+              {/* Left — big number */}
+              <div style={{
+                background: PLUM,
+                padding: '36px 28px',
+                display: 'flex', flexDirection: 'column', justifyContent: 'center',
+              }}>
+                <div style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: '72px', fontWeight: 700, color: '#fff', lineHeight: 1,
+                  letterSpacing: '-2px',
+                }}>253</div>
+                <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', marginTop: '6px', fontWeight: 600, letterSpacing: '0.08em' }}>
+                  WHATSAPP CHATS
+                </div>
+                <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.85)', marginTop: '4px' }}>
+                  All invisible. Nothing tracked.
+                </div>
+              </div>
+
+              {/* Right — 4 problem lines */}
+              <div style={{ background: '#fff', padding: isMobile ? '24px' : '28px 32px', display: 'flex', flexDirection: 'column', gap: '18px', justifyContent: 'center' }}>
+                {[
+                  { icon: '😴', text: '37 warm leads went cold — silently' },
+                  { icon: '🤷', text: 'No way to know what\'s selling' },
+                  { icon: '💸', text: 'Payments buried across chat threads' },
+                  { icon: '📉', text: 'No pipeline. No funnel. No visibility.' },
+                ].map(({ icon, text }, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div style={{
+                      width: '36px', height: '36px', borderRadius: '10px',
+                      background: `${PLUM}08`, display: 'flex', alignItems: 'center',
+                      justifyContent: 'center', fontSize: '18px', flexShrink: 0,
+                    }}>{icon}</div>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: INK, lineHeight: 1.3 }}>{text}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Scenario — single sentence, visually distinct */}
+          <Reveal delay={160}>
+            <div style={{
+              background: `${ROSE}10`, border: `1.5px solid ${ROSE}30`,
+              borderRadius: '14px', padding: '18px 22px',
+              display: 'flex', alignItems: 'center', gap: '16px',
+            }}>
+              <div style={{ fontSize: '28px', flexShrink: 0 }}>💡</div>
+              <p style={{ fontSize: '14px', color: INK, lineHeight: 1.65, margin: 0 }}>
+                Mansi from Gulbarga. Quote of <strong>₹30,000</strong> shared. She went quiet.{' '}
+                <span style={{ color: ROSE, fontWeight: 600 }}>Three weeks later — nobody remembered.</span>
+              </p>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ════════════ SECTION 3: STALE PROSPECTS ════════════ */}
+      {/* ══════════════════════════════════════════════════════
+          PART 02 — THE SOLUTION
+      ══════════════════════════════════════════════════════ */}
       <section style={{
-        background: '#FDF0F2', padding: isMobile ? '48px 16px' : '80px 24px',
+        background: PLUM, padding: isMobile ? '52px 20px 16px' : '64px 32px 16px',
+      }}>
+        <Reveal>
+          <PartHeader num="2" label="The Solution" light
+            heading={<>Querygen turns every WhatsApp chat into<br /><em style={{ color: ROSE }}>a live, intelligent sales pipeline.</em></>}
+          />
+        </Reveal>
+      </section>
+
+      {/* Solution 1 — Pipeline */}
+      <section style={{ background: '#fff', padding: isMobile ? '48px 20px' : '64px 32px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <Reveal>
+            <SectionHead label="Solution · 01" title="Every conversation becomes a tracked deal — automatically." />
+            <p style={{ fontSize: '14px', color: MUTED, lineHeight: 1.75, margin: '0 0 32px', maxWidth: '600px' }}>
+              Querygen reads every WhatsApp message and builds a live pipeline. No manual entry. No new tool for the team to learn. 11 deal stages, 253 prospects, all visible at once.
+            </p>
+          </Reveal>
+          <Reveal delay={80}>
+            <ProspectsTableMock />
+          </Reveal>
+          <Reveal delay={120}>
+            <div style={{ display: 'flex', gap: '24px', marginTop: '24px', flexWrap: 'wrap' }}>
+              {[
+                { num: '11', label: 'deal stages tracked' },
+                { num: '253', label: 'total prospects' },
+                { num: '230', label: 'active pipeline' },
+              ].map(({ num, label }) => (
+                <div key={label} style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
+                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '24px', fontWeight: 700, color: PLUM }}>{num}</span>
+                  <span style={{ fontSize: '12px', color: MUTED }}>{label}</span>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Solution 2 — AI per prospect */}
+      <section style={{ background: CREAM, padding: isMobile ? '48px 20px' : '64px 32px', borderTop: `1px solid ${PLUM}10` }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <Reveal>
+            <SectionHead label="Solution · 02" title="Every prospect gets a dedicated AI analyst." />
+            <p style={{ fontSize: '14px', color: MUTED, lineHeight: 1.75, margin: '0 0 36px', maxWidth: '600px' }}>
+              Querygen reads every message in the thread and surfaces exactly what to do next — specific, actionable, tailored to that conversation. Items discussed, payment status, stage progress — all extracted automatically.
+            </p>
+          </Reveal>
+          <Reveal delay={80}>
+            <ProspectDetailMock />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Solution 3 — Stale prospects */}
+      <section style={{
+        background: '#FDF0F2', padding: isMobile ? '48px 20px' : '64px 32px',
         position: 'relative', overflow: 'hidden',
         borderTop: `1px solid ${ROSE}22`,
       }}>
-        {/* Dot grid */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: `radial-gradient(${ROSE}25 1px, transparent 1px)`,
-          backgroundSize: '28px 28px',
-        }} />
-        {/* Glow */}
-        <div style={{
-          position: 'absolute', top: '-80px', right: '-80px',
-          width: '480px', height: '480px', borderRadius: '50%',
-          background: `radial-gradient(circle, ${ROSE}20 0%, transparent 65%)`,
-        }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: `radial-gradient(${ROSE}22 1px, transparent 1px)`, backgroundSize: '28px 28px' }} />
+        <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: '480px', height: '480px', borderRadius: '50%', background: `radial-gradient(circle, ${ROSE}18 0%, transparent 65%)` }} />
         <div style={{ position: 'relative', maxWidth: '900px', margin: '0 auto' }}>
           <Reveal>
-            <SectionHead
-              label="⚠️  THE KILLER INSIGHT"
-              title={<>37 prospects went quiet.<br />Each one is a gift order waiting to happen.</>}
-            />
-          </Reveal>
-          <Reveal delay={80}>
-            <p style={{ fontSize: '14px', color: MUTED, lineHeight: 1.7, margin: '0 0 40px', maxWidth: '560px' }}>
-              Before Querygen, these conversations were invisible — buried in old WhatsApp threads, with no way to know they'd gone cold.
+            <SectionHead label="Solution · 03" title={<>37 leads went quiet. Querygen found every one.</>} />
+            <p style={{ fontSize: '14px', color: MUTED, lineHeight: 1.75, margin: '0 0 36px', maxWidth: '560px' }}>
+              A stale prospect list is generated automatically — every warm lead that hasn't replied in days, flagged with exactly how long they've been silent and what to say to revive them.
             </p>
           </Reveal>
-          <Reveal delay={120}>
+          <Reveal delay={80}>
             <StaleProspectMock />
           </Reveal>
         </div>
       </section>
 
-      {/* ════════════ SECTION 4: SALES FUNNEL ════════════ */}
-      <section style={{
-        background: '#fff', borderTop: `1px solid ${PLUM}12`, padding: isMobile ? '40px 16px' : '72px 24px',
-      }}>
+      {/* Solution 4 — Funnel */}
+      <section style={{ background: '#fff', padding: isMobile ? '48px 20px' : '64px 32px', borderTop: `1px solid ${PLUM}10` }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <Reveal>
-            <SectionHead label="03 — SALES FUNNEL" title="251 inquiries. 4 deliveries. Here's where each one went." />
-          </Reveal>
-          <Reveal delay={60}>
-            <p style={{ fontSize: '14px', color: MUTED, lineHeight: 1.7, margin: '0 0 36px', maxWidth: '600px' }}>
-              The funnel tells you where you're losing deals — before the money disappears.
+            <SectionHead label="Solution · 04" title="251 inquiries. 36 orders. The funnel shows you exactly where deals die." />
+            <p style={{ fontSize: '14px', color: MUTED, lineHeight: 1.75, margin: '0 0 36px', maxWidth: '600px' }}>
+              The biggest drop-off: -65% from Inquiry to Product Selection. Before Querygen, this was invisible. Now it's fixable.
             </p>
           </Reveal>
-          <Reveal delay={100}>
+          <Reveal delay={80}>
             <FunnelMock />
           </Reveal>
         </div>
       </section>
 
-      {/* ════════════ SECTION 5: PRODUCT INTELLIGENCE ════════════ */}
-      <section style={{ background: '#fff', borderTop: `1px solid ${PLUM}12`, padding: isMobile ? '40px 16px' : '72px 24px' }}>
-      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-        <Reveal>
-          <SectionHead label="04 — PRODUCT INTELLIGENCE" title="What your customers actually want." />
-        </Reveal>
-        <Reveal delay={60}>
-          <p style={{ fontSize: '14px', color: MUTED, lineHeight: 1.7, margin: '0 0 36px', maxWidth: '600px' }}>
-            Querygen reads every conversation and counts which products customers ask about most — ranked by mentions, automatically.
-          </p>
-        </Reveal>
-        <Reveal delay={100}>
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 280px', gap: isMobile ? '24px' : '48px', alignItems: 'flex-start' }}>
-            {/* Word Cloud */}
-            <div style={{
-              background: '#fff', borderRadius: '14px',
-              border: `1.5px solid ${PLUM}18`,
-              padding: '24px',
-              boxShadow: '0 4px 24px rgba(74,25,66,0.06)',
-            }}>
-              <div style={{ fontSize: '9px', fontWeight: 700, color: MUTED, letterSpacing: '0.12em', marginBottom: '16px' }}>
-                PRODUCT POPULARITY — TOP ITEMS DISCUSSED
-              </div>
-              {isMobile ? (
-                /* Pill tag layout on mobile */
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {CLOUD_WORDS.map(([text, size, color, opacity]) => (
-                    <span key={text} style={{
-                      fontSize: `${Math.max(11, Math.min(size * 0.55, 18))}px`,
-                      fontWeight: 700,
-                      color,
-                      opacity,
-                      fontFamily: "'Cormorant Garamond', serif",
-                      padding: '4px 10px',
-                      background: `${color}10`,
-                      borderRadius: '20px',
-                      border: `1px solid ${color}30`,
-                      whiteSpace: 'nowrap',
-                    }}>
-                      {text}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                /* Absolute positioned cloud on desktop */
-                <div style={{ position: 'relative', height: '240px', userSelect: 'none' }}>
-                  {CLOUD_WORDS.map(([text, size, color, opacity, top, left, rotate]) => (
-                    <span key={text} style={{
-                      position: 'absolute', top, left,
-                      fontSize: `${size}px`, fontWeight: 700,
-                      color, opacity,
-                      transform: `rotate(${rotate}deg)`,
-                      fontFamily: "'Cormorant Garamond', serif",
-                      whiteSpace: 'nowrap',
-                    }}>
-                      {text}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Revenue bars */}
-            <RevenueBarsMock />
-          </div>
-        </Reveal>
-      </div>
-      </section>
-
-      {/* ════════════ BEFORE / AFTER ════════════ */}
-      <section style={{
-        background: CREAM, borderTop: `1px solid ${PLUM}12`,
-        padding: isMobile ? '40px 16px' : '72px 24px',
-      }}>
+      {/* Solution 5 — Product intelligence */}
+      <section style={{ background: CREAM, padding: isMobile ? '48px 20px' : '64px 32px', borderTop: `1px solid ${PLUM}10` }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-        <Reveal>
-          <SectionHead label="05 — THE TRANSFORMATION" title="Before vs. after, in one view." />
-        </Reveal>
-        {BEFORE_AFTER.map(({ before, after }, i) => (
-          <Reveal key={i} delay={i * 50}>
-            <div style={{
-              display: 'grid', gridTemplateColumns: isMobile ? '1fr 20px 1fr' : '1fr 36px 1fr',
-              gap: isMobile ? '6px' : '10px', alignItems: 'center', marginBottom: '10px',
-            }}>
-              <div style={{
-                background: '#FFF5F5', border: '1px solid #F5C6C6',
-                borderRadius: '8px', padding: isMobile ? '8px' : '10px 12px',
-                fontSize: isMobile ? '11px' : '12px', color: '#7A2020', lineHeight: 1.45,
-              }}>
-                {before}
+          <Reveal>
+            <SectionHead label="Solution · 05" title="What your customers actually want — ranked." />
+            <p style={{ fontSize: '14px', color: MUTED, lineHeight: 1.75, margin: '0 0 36px', maxWidth: '600px' }}>
+              Querygen reads every conversation and counts which products come up most. Cover With Decor leads. Now you know where to focus.
+            </p>
+          </Reveal>
+          <Reveal delay={80}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 280px', gap: isMobile ? '24px' : '48px', alignItems: 'flex-start' }}>
+              <div style={{ background: '#fff', borderRadius: '14px', border: `1.5px solid ${PLUM}18`, padding: '24px', boxShadow: '0 4px 24px rgba(74,25,66,0.06)' }}>
+                <div style={{ fontSize: '9px', fontWeight: 700, color: MUTED, letterSpacing: '0.12em', marginBottom: '16px' }}>
+                  PRODUCT POPULARITY — TOP ITEMS DISCUSSED
+                </div>
+                {isMobile ? (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {CLOUD_WORDS.map(([text, size, color, opacity]) => (
+                      <span key={text} style={{
+                        fontSize: `${Math.max(11, Math.min(size * 0.55, 18))}px`, fontWeight: 700,
+                        color, opacity, fontFamily: "'Cormorant Garamond', serif",
+                        padding: '4px 10px', background: `${color}10`,
+                        borderRadius: '20px', border: `1px solid ${color}30`, whiteSpace: 'nowrap',
+                      }}>{text}</span>
+                    ))}
+                  </div>
+                ) : (
+                  <div style={{ position: 'relative', height: '240px', userSelect: 'none' }}>
+                    {CLOUD_WORDS.map(([text, size, color, opacity, top, left, rotate]) => (
+                      <span key={text} style={{
+                        position: 'absolute', top, left,
+                        fontSize: `${size}px`, fontWeight: 700, color, opacity,
+                        transform: `rotate(${rotate}deg)`,
+                        fontFamily: "'Cormorant Garamond', serif", whiteSpace: 'nowrap',
+                      }}>{text}</span>
+                    ))}
+                  </div>
+                )}
               </div>
-              <div style={{ textAlign: 'center', fontSize: isMobile ? '12px' : '16px', color: ROSE }}>→</div>
-              <div style={{
-                background: '#F0FDF4', border: '1px solid #86EFAC',
-                borderRadius: '8px', padding: isMobile ? '8px' : '10px 12px',
-                fontSize: isMobile ? '11px' : '12px', color: '#14532D', lineHeight: 1.45,
-              }}>
-                {after}
-              </div>
+              <RevenueBarsMock />
             </div>
           </Reveal>
-        ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          PART 03 — THE IMPACT
+      ══════════════════════════════════════════════════════ */}
+      <section style={{
+        background: PLUM, padding: isMobile ? '52px 20px 16px' : '64px 32px 16px',
+      }}>
+        <Reveal>
+          <PartHeader num="3" label="The Impact" light
+            heading={<>From invisible conversations<br /><em style={{ color: ROSE }}>to a pipeline that pays.</em></>}
+          />
+        </Reveal>
+      </section>
+
+      {/* Stat cards */}
+      <section style={{ background: CREAM, padding: isMobile ? '48px 20px' : '64px 32px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '14px', marginBottom: '48px' }}>
+            {[
+              { value: '₹7.75L', sub: 'Revenue tracked in pipeline', icon: '💰' },
+              { value: '37', sub: 'Stale leads surfaced for follow-up', icon: '⚠️' },
+              { value: '-65%', sub: 'Biggest drop-off — now visible', icon: '📉' },
+              { value: '11', sub: 'Deal stages tracked automatically', icon: '📊' },
+            ].map(({ value, sub, icon }) => (
+              <Reveal key={value}>
+                <div style={{
+                  background: '#fff', border: `1.5px solid ${PLUM}15`,
+                  borderRadius: '14px', padding: '18px 16px', textAlign: 'center',
+                  boxShadow: '0 2px 10px rgba(74,25,66,0.05)',
+                }}>
+                  <div style={{ fontSize: '22px', marginBottom: '6px' }}>{icon}</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '30px', fontWeight: 700, color: PLUM, lineHeight: 1, marginBottom: '4px' }}>{value}</div>
+                  <div style={{ fontSize: '11px', color: MUTED, lineHeight: 1.45 }}>{sub}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* Before / After */}
+          <Reveal>
+            <SectionHead label="The Transformation" title="Before vs. after, in one view." />
+          </Reveal>
+          {BEFORE_AFTER.map(({ before, after }, i) => (
+            <Reveal key={i} delay={i * 50}>
+              <div style={{
+                display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+                gap: '10px', marginBottom: '10px',
+              }}>
+                <div style={{
+                  background: '#FFF5F5', border: '1px solid #F5C6C6',
+                  borderRadius: '10px', padding: '12px 14px',
+                  fontSize: '12px', color: '#7A2020', lineHeight: 1.5,
+                  display: 'flex', gap: '10px', alignItems: 'flex-start',
+                }}>
+                  <span style={{ flexShrink: 0, marginTop: '1px' }}>✗</span>
+                  <span>{before.replace(/^[^\s]+ /, '')}</span>
+                </div>
+                <div style={{
+                  background: '#F0FDF4', border: '1px solid #86EFAC',
+                  borderRadius: '10px', padding: '12px 14px',
+                  fontSize: '12px', color: '#14532D', lineHeight: 1.5,
+                  display: 'flex', gap: '10px', alignItems: 'flex-start',
+                }}>
+                  <span style={{ flexShrink: 0, marginTop: '1px' }}>✓</span>
+                  <span>{after.replace(/^[^\s]+ /, '')}</span>
+                </div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
@@ -1351,7 +1450,8 @@ const WrappingStoreExplainer = () => {
       <section style={{
         background: `linear-gradient(160deg, ${PLUM} 0%, #17051A 100%)`,
         position: 'relative', overflow: 'hidden',
-        padding: isMobile ? '48px 16px 40px' : '72px 24px 64px',
+        padding: isMobile ? '64px 20px' : '96px 32px',
+        textAlign: 'center',
       }}>
         <div style={{
           position: 'absolute', inset: 0, opacity: 0.05,
@@ -1363,48 +1463,30 @@ const WrappingStoreExplainer = () => {
           width: '400px', height: '400px', borderRadius: '50%',
           background: `radial-gradient(circle, ${ROSE}1a 0%, transparent 70%)`,
         }} />
-        <div style={{ position: 'relative', maxWidth: '480px', margin: '0 auto', textAlign: 'center' }}>
+        <div style={{ position: 'relative', maxWidth: '560px', margin: '0 auto' }}>
           <Reveal>
             <div style={{ width: '40px', height: '2px', background: ROSE, margin: '0 auto 24px' }} />
             <h2 style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '28px', fontWeight: 700, color: '#fff',
-              lineHeight: 1.3, margin: '0 0 16px',
+              fontSize: isMobile ? '26px' : '38px', fontWeight: 700, color: '#fff',
+              lineHeight: 1.2, margin: '0 0 16px',
             }}>
-              The Wrapping Store deserves to know which conversations are alive — and which ones need one last message.
+              The Wrapping Store now knows which conversations are alive —{' '}
+              <em style={{ color: ROSE }}>and which ones need one last message.</em>
             </h2>
             <p style={{
-              fontSize: '14px', lineHeight: 1.7,
-              color: 'rgba(255,255,255,0.62)', margin: '0 0 32px',
+              fontSize: '14px', lineHeight: 1.75,
+              color: 'rgba(255,255,255,0.6)', margin: '0 0 32px',
             }}>
               Every gift in those boxes started as a WhatsApp message. Querygen makes sure none of those conversations — or the revenue inside them — gets lost.
             </p>
-
-            {/* Next step */}
-            <div style={{
-              background: `${ROSE}1a`, border: `1.5px solid ${ROSE}44`,
-              borderRadius: '12px', padding: '20px 24px',
-              textAlign: 'left', marginBottom: '28px',
-            }}>
-              <div style={{ fontSize: '10px', fontWeight: 700, color: ROSE, letterSpacing: '0.1em', marginBottom: '8px' }}>
-                GET STARTED
-              </div>
-              <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.9)', lineHeight: 1.65, margin: '0 0 14px', fontWeight: 500 }}>
-                We set everything up. You use it for a week.
-              </p>
-              <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, margin: 0 }}>
-                Share your WhatsApp business number, we connect Querygen, and your full pipeline appears — every prospect, every stage, every AI next step. No technical work on your end. We work with you, together, every step of the way.
-              </p>
-            </div>
-
-            {/* Footer badge */}
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
               background: `${ROSE}18`, border: `1px solid ${ROSE}44`,
-              borderRadius: '20px', padding: '6px 18px',
+              borderRadius: '20px', padding: '8px 18px',
             }}>
               <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ROSE }} />
-              <span style={{ fontSize: '12px', color: ROSE, fontWeight: 600 }}>querygen.ai</span>
+              <span style={{ fontSize: '12px', color: ROSE, fontWeight: 600 }}>Powered by Cohesion AI</span>
             </div>
           </Reveal>
         </div>

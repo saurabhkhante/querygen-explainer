@@ -16,12 +16,14 @@ import FeedBCSlide from './components/FeedBCSlide';
 import LaajExplainer from './components/LaajExplainer';
 import WrappingStoreExplainer from './components/WrappingStoreExplainer';
 import CharuConstructionsExplainer from './components/CharuConstructionsExplainer';
+import NichemExplainer from './components/NichemExplainer';
 import RevenueCalc from './components/RevenueCalc';
 import RevenueSimple from './components/RevenueSimple';
 import SlideBuilder from './components/SlideBuilder';
 import CustomSlideRenderer from './components/CustomSlideRenderer';
 import AutopilotWizard from './components/AutopilotWizard';
 import AutopilotDashboard from './components/AutopilotDashboard';
+import MSMEAutomationSessionDeck from './components/MSMEAutomationSessionDeck';
 import { useCustomSlides } from './hooks/useCustomSlides';
 
 // Wrapper: renders a custom slide by :id
@@ -108,6 +110,7 @@ function App() {
                     <p className="mt-1 text-sm text-gray-500">Pitch deck slides for demos and prospect meetings</p>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <Link to="/msme-session-deck" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#075E54] hover:bg-[#054d44] transition-colors text-center leading-snug">MSME Session Deck</Link>
                     <Link to="/visibility-slide" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-querygen-green hover:bg-green-700 transition-colors text-center leading-snug">Visibility Slide</Link>
                     <Link to="/charu-slide" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-querygen-green hover:bg-green-700 transition-colors text-center leading-snug">Charu Slide</Link>
                     <Link to="/attention-slide" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-querygen-green hover:bg-green-700 transition-colors text-center leading-snug">Attention Slide</Link>
@@ -128,6 +131,7 @@ function App() {
                     <Link to="/laaj-explainer" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#6B1A2B] hover:bg-[#4A0F1E] transition-colors text-center leading-snug">Laaj Creations</Link>
                     <Link to="/wrapping-store-explainer" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#4A1942] hover:bg-[#320F2C] transition-colors text-center leading-snug">The Wrapping Store</Link>
                     <Link to="/charu-constructions-explainer" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#1E293B] hover:bg-[#0F172A] transition-colors text-center leading-snug">Charu Constructions</Link>
+                    <Link to="/nichem-explainer" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#0D6E6E] hover:bg-[#0A5252] transition-colors text-center leading-snug">Nichem Chemicals</Link>
                   </div>
                 </section>
 
@@ -221,6 +225,7 @@ function App() {
           <Route path="/laaj-explainer" element={<LaajExplainer />} />
           <Route path="/wrapping-store-explainer" element={<WrappingStoreExplainer />} />
           <Route path="/charu-constructions-explainer" element={<CharuConstructionsExplainer />} />
+          <Route path="/nichem-explainer" element={<NichemExplainer />} />
           <Route path="/revenue-calc" element={<RevenueCalc />} />
           <Route path="/revenue-simple" element={<RevenueSimple />} />
           <Route path="/slide-builder" element={<SlideBuilder onSave={addSlide} />} />
@@ -228,6 +233,7 @@ function App() {
           <Route path="/custom-slide/:id" element={<CustomSlideRoute getSlide={getSlide} />} />
           <Route path="/autopilot" element={<AutopilotWizard />} />
           <Route path="/autopilot-dashboard" element={<AutopilotDashboard />} />
+          <Route path="/msme-session-deck" element={<MSMEAutomationSessionDeck />} />
         </Routes>
       </div>
     </Router>
