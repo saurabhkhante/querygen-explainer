@@ -190,9 +190,8 @@ const SLIDES = [
       'Lead details are captured from conversations for follow-up.',
     ],
     cta: {
-      label: 'Open Nichem Explainer (Link Pending)',
-      href: '#',
-      pending: true,
+      label: 'Open Nichem Explainer',
+      href: '/nichem-explainer',
     },
   },
   {
