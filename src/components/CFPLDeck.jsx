@@ -717,6 +717,40 @@ export default function CFPLDeck() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
+  // OG meta tags — only for this page
+  useEffect(() => {
+    const prevTitle = document.title;
+    document.title = 'WhatsApp to Excel Reports | Querygen';
+
+    const tags = [
+      { property: 'og:type',         content: 'website' },
+      { property: 'og:url',          content: 'https://querygen-explainer.vercel.app/cfpl-deck' },
+      { property: 'og:title',        content: 'WhatsApp to Excel Reports | Querygen' },
+      { property: 'og:description',  content: 'Your field team reports on WhatsApp. Querygen turns every message into a live Excel report — automatically.' },
+      { property: 'og:image',        content: 'https://querygen-explainer.vercel.app/og-cfpl.png' },
+      { property: 'og:image:width',  content: '1512' },
+      { property: 'og:image:height', content: '982' },
+      { name: 'twitter:card',        content: 'summary_large_image' },
+      { name: 'twitter:title',       content: 'WhatsApp to Excel Reports | Querygen' },
+      { name: 'twitter:description', content: 'Your field team reports on WhatsApp. Querygen turns every message into a live Excel report — automatically.' },
+      { name: 'twitter:image',       content: 'https://querygen-explainer.vercel.app/og-cfpl.png' },
+    ];
+
+    const els = tags.map((t) => {
+      const el = document.createElement('meta');
+      if (t.property) el.setAttribute('property', t.property);
+      if (t.name)     el.setAttribute('name', t.name);
+      el.setAttribute('content', t.content);
+      document.head.appendChild(el);
+      return el;
+    });
+
+    return () => {
+      document.title = prevTitle;
+      els.forEach((el) => document.head.removeChild(el));
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#F7F5F2] text-[#1E1E1E]">
       <style>{`
