@@ -1204,13 +1204,6 @@ export default function MSMEAutomationSessionDeck() {
             </span>
             <span className="font-medium">querygen.ai</span>
           </div>
-          <div className="inline-flex items-center">
-            <img
-              src="/howframeworks-logo.svg"
-              alt="How Frameworks logo"
-              className="h-6 sm:h-7 w-auto object-contain"
-            />
-          </div>
         </div>
 
         <main className="flex-1 flex items-center">

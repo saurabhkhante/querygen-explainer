@@ -24,6 +24,7 @@ import CustomSlideRenderer from './components/CustomSlideRenderer';
 import AutopilotWizard from './components/AutopilotWizard';
 import AutopilotDashboard from './components/AutopilotDashboard';
 import MSMEAutomationSessionDeck from './components/MSMEAutomationSessionDeck';
+import CFPLDeck from './components/CFPLDeck';
 import { useCustomSlides } from './hooks/useCustomSlides';
 
 // Wrapper: renders a custom slide by :id
@@ -132,6 +133,7 @@ function App() {
                     <Link to="/wrapping-store-explainer" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#4A1942] hover:bg-[#320F2C] transition-colors text-center leading-snug">The Wrapping Store</Link>
                     <Link to="/charu-constructions-explainer" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#1E293B] hover:bg-[#0F172A] transition-colors text-center leading-snug">Charu Constructions</Link>
                     <Link to="/nichem-explainer" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#0D6E6E] hover:bg-[#0A5252] transition-colors text-center leading-snug">Nichem Chemicals</Link>
+                    <Link to="/cfpl-deck" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#1A5C3A] hover:bg-[#124028] transition-colors text-center leading-snug">CFPL · WhatsApp → Excel</Link>
                   </div>
                 </section>
 
@@ -234,6 +236,7 @@ function App() {
           <Route path="/autopilot" element={<AutopilotWizard />} />
           <Route path="/autopilot-dashboard" element={<AutopilotDashboard />} />
           <Route path="/msme-session-deck" element={<MSMEAutomationSessionDeck />} />
+          <Route path="/cfpl-deck" element={<CFPLDeck />} />
         </Routes>
       </div>
     </Router>
