@@ -1,6 +1,38 @@
 {
   "rewrites": [
     {
+      "source": "/cfpl-deck",
+      "destination": "/cfpl-deck.html"
+    },
+    {
+      "source": "/cfpl-deck/",
+      "destination": "/cfpl-deck.html"
+    },
+    {
+      "source": "/red-lotus-deck",
+      "destination": "/red-lotus-deck.html"
+    },
+    {
+      "source": "/red-lotus-deck/",
+      "destination": "/red-lotus-deck.html"
+    },
+    {
+      "source": "/querygen-usecases",
+      "destination": "/querygen-usecases.html"
+    },
+    {
+      "source": "/querygen-usecases/",
+      "destination": "/querygen-usecases.html"
+    },
+    {
+      "source": "/pharma-chem-deck",
+      "destination": "/pharma-chem-deck.html"
+    },
+    {
+      "source": "/pharma-chem-deck/",
+      "destination": "/pharma-chem-deck.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

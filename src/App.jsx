@@ -25,6 +25,10 @@ import AutopilotWizard from './components/AutopilotWizard';
 import AutopilotDashboard from './components/AutopilotDashboard';
 import MSMEAutomationSessionDeck from './components/MSMEAutomationSessionDeck';
 import CFPLDeck from './components/CFPLDeck';
+import PrimeGraphiteDashboard from './components/PrimeGraphiteDashboard';
+import RedLotusDeck from './components/RedLotusDeck';
+import QuerygenUsecases from './components/QuerygenUsecases';
+import PharmaChemDeck from './components/PharmaChemDeck';
 import { useCustomSlides } from './hooks/useCustomSlides';
 
 // Wrapper: renders a custom slide by :id
@@ -134,6 +138,10 @@ function App() {
                     <Link to="/charu-constructions-explainer" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#1E293B] hover:bg-[#0F172A] transition-colors text-center leading-snug">Charu Constructions</Link>
                     <Link to="/nichem-explainer" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#0D6E6E] hover:bg-[#0A5252] transition-colors text-center leading-snug">Nichem Chemicals</Link>
                     <Link to="/cfpl-deck" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#1A5C3A] hover:bg-[#124028] transition-colors text-center leading-snug">CFPL · WhatsApp → Excel</Link>
+                    <Link to="/prime-graphite" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#1a1a2e] hover:bg-[#0d1120] transition-colors text-center leading-snug">Prime Graphite · Ops Dashboard</Link>
+                    <Link to="/pharma-chem-deck" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#0D7A5F] hover:bg-[#0A5A46] transition-colors text-center leading-snug">Pharma &amp; Chemicals Deck</Link>
+                    <Link to="/red-lotus-deck" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#8B1A1A] hover:bg-[#6B1212] transition-colors text-center leading-snug">Red Lotus Pharmtech · Pharma Deck</Link>
+                    <Link to="/querygen-usecases" className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-white bg-[#1A8A4A] hover:bg-[#156F3B] transition-colors text-center leading-snug">Querygen · Pharma Use Cases</Link>
                   </div>
                 </section>
 
@@ -237,6 +245,10 @@ function App() {
           <Route path="/autopilot-dashboard" element={<AutopilotDashboard />} />
           <Route path="/msme-session-deck" element={<MSMEAutomationSessionDeck />} />
           <Route path="/cfpl-deck" element={<CFPLDeck />} />
+          <Route path="/prime-graphite" element={<PrimeGraphiteDashboard />} />
+          <Route path="/red-lotus-deck" element={<RedLotusDeck />} />
+          <Route path="/querygen-usecases" element={<QuerygenUsecases />} />
+          <Route path="/pharma-chem-deck" element={<PharmaChemDeck />} />
         </Routes>
       </div>
     </Router>
